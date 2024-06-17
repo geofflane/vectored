@@ -45,6 +45,18 @@ defmodule Vectored.Elements.Element do
       def rendered_key(key) do
         Keyword.get(unquote(attribute_overrides), key, key)
       end
+
+      def with_id(elem, id) do
+        %{elem | id: id}
+      end
+
+      def with_stroke(elem, stroke) do
+        %{elem | stroke: stroke}
+      end
+
+      def with_fill(elem, fill) do
+        %{elem | fill: fill}
+      end
     end
   end
 
