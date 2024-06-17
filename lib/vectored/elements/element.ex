@@ -10,6 +10,9 @@ defmodule Vectored.Elements.Element do
   ]
 
   @common_attributes [
+    id: nil,
+    class: nil,
+    style: nil,
     fill: nil,         # "white",
     stroke: nil,       # "black",
     stroke_width: nil  # 5

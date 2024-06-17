@@ -10,8 +10,14 @@ defmodule Vectored do
     Vectored.Renderable.to_svg(element)
   end
 
-  def to_xml_string(element) do
-    doc = to_svg(element)
+  def to_svg_string(element) do
+    doc =
+      case to_svg(element) do
+        {:svg, attrs, elems} ->
+          {:svg, attrs ++ [xmlns: "http://www.w3.org/2000/svg"], elems}
+        element ->
+          element
+      end
 
     xml_str =
       [doc]
