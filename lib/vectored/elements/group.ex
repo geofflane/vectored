@@ -1,7 +1,6 @@
 defmodule Vectored.Elements.Group do
-  use Vectored.Elements.Element, children: []
-
-  def rendered_key(k), do: k
+  use Vectored.Elements.Element,
+    attributes: [children: []]
 
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Group{children: children} = element) do

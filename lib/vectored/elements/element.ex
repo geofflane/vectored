@@ -2,19 +2,30 @@ defmodule Vectored.Elements.Element do
   @moduledoc """
   Helps to build elements by including common elements
   """
+  @default_overrides [
+    pathLength: :path_length,
+    stroke_width: :"stroke-width",
+    view_box: :viewBox,
+    preserve_aspect_ratio: :preserveAspectRatio
+  ]
 
-  defp common_attributes() do
-    [fill: "white", stroke: "black", stroke_width: 5]
-  end
+  @common_attributes [
+    fill: nil,         # "white",
+    stroke: nil,       # "black",
+    stroke_width: nil  # 5
+  ]
 
   defmacro defelement(attributes) do
-    all_attributes = Keyword.merge(common_attributes(), attributes)
+    all_attributes = Keyword.merge(@common_attributes, attributes)
     quote do
       defstruct unquote(all_attributes)
     end
   end
 
-  defmacro __using__(attributes) do
+  defmacro __using__(opts) do
+    attributes = Keyword.get(opts, :attributes, [])
+    attribute_overrides = Keyword.merge(@default_overrides, Keyword.get(opts, :attribute_overrides, []))
+
     quote do
       import Vectored.Elements.Element
 
@@ -28,7 +39,9 @@ defmodule Vectored.Elements.Element do
         Vectored.Elements.Element.attributes(element, attrs())
       end
 
-      def rendered_key(:stroke_width), do: :"stroke-width"
+      def rendered_key(key) do
+        Keyword.get(unquote(attribute_overrides), key, key)
+      end
     end
   end
 

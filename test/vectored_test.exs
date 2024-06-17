@@ -31,6 +31,6 @@ defmodule VectoredTest do
         ]}
       |> Vectored.to_xml_string()
 
-    assert "<svg width=\"100\" y=\"0\" x=\"0\" stroke=\"black\" fill=\"white\" height=\"100\" stroke-width=\"5\"><g stroke=\"black\" fill=\"white\" stroke-width=\"5\"><circle r=\"5\" cx=\"1\" cy=\"1\" stroke=\"black\" fill=\"white\" stroke-width=\"5\"/><text y=\"1\" x=\"1\" stroke=\"black\" fill=\"white\" stroke-width=\"5\">test</text></g></svg>" == svg
+    assert "<svg width=\"100\" y=\"0\" x=\"0\" height=\"100\"><g><circle r=\"5\" cx=\"1\" cy=\"1\"/><text y=\"1\" x=\"1\">test</text></g></svg>" == svg
   end
 end

@@ -16,10 +16,8 @@ defmodule Vectored.Elements.Line do
   Defines the total path length in user units. Value type: <number> ; Default value: none; Animatable: yes
   """
 
-  use Vectored.Elements.Element, x1: 0, x2: 0, y1: 0, y2: 0, path_length: nil
-
-  def rendered_key(:path_length), do: :pathLength
-  def rendered_key(k), do: k
+  use Vectored.Elements.Element,
+    attributes: [x1: 0, x2: 0, y1: 0, y2: 0, path_length: nil]
 
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Line{} = element) do

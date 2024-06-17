@@ -22,11 +22,9 @@ defmodule Vectored.Elements.Text do
   A width that the text should be scaled to fit. Value type: <length>|<percentage> ; Default value: none; Animatable: yes
   """
 
-  use Vectored.Elements.Element, x: 0, y: 0, dx: nil, dy: nil, rotate: nil, length_adjust: nil, text_length: nil, content: nil
-
-  def rendered_key(:length_adjust), do: :lengthAdjust
-  def rendered_key(:text_length), do: :textLength
-  def rendered_key(k), do: k
+  use Vectored.Elements.Element,
+    attributes: [x: 0, y: 0, dx: nil, dy: nil, rotate: nil, length_adjust: nil, text_length: nil, content: nil],
+    attribute_overrides: [length_adjust: :lengthAdjust, text_length: :textLength]
 
   defimpl Vectored.Renderable do
     require Record

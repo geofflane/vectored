@@ -18,11 +18,8 @@ defmodule Vectored.Elements.Svg do
   y
   The displayed y coordinate of the svg container. No effect on outermost svg elements. Value type: <length>|<percentage> ; Default value: 0; Animatable: yes
   """
-  use Vectored.Elements.Element, height: nil, width: nil, preserve_aspect_ratio: nil, view_box: nil, x: 0, y: 0, children: []
-
-  def rendered_key(:preserve_aspect_ratio), do: :preserveAspectRatio
-  def rendered_key(:view_box), do: :viewBox
-  def rendered_key(k), do: k
+  use Vectored.Elements.Element, 
+    attributes: [height: nil, width: nil, preserve_aspect_ratio: nil, view_box: nil, x: 0, y: 0, children: []]
 
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Svg{children: children} = element) do

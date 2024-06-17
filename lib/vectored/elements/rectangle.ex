@@ -22,10 +22,8 @@ defmodule Vectored.Elements.Rectangle do
   The total length of the rectangle's perimeter, in user units. Value type: <number> ; Default value: none; Animatable: yes
   """
 
-  use Vectored.Elements.Element, x: 0, y: 0, width: nil, height: nil, rx: nil, ry: nil, path_length: nil
-
-  def rendered_key(:path_length), do: :pathLength
-  def rendered_key(k), do: k
+  use Vectored.Elements.Element,
+    attributes: [x: 0, y: 0, width: nil, height: nil, rx: nil, ry: nil, path_length: nil]
 
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Rectangle{} = element) do

@@ -13,10 +13,8 @@ defmodule Vectored.Elements.Circle do
   The total length for the circle's circumference, in user units. Value type: <number> ; Default value: none; Animatable: yes
   """
 
-  use Vectored.Elements.Element, cx: 0, cy: 0, r: 0, path_length: nil
-
-  def rendered_key(:path_length), do: :pathLength
-  def rendered_key(k), do: k
+  use Vectored.Elements.Element,
+    attributes: [cx: 0, cy: 0, r: 0, path_length: nil]
 
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Circle{} = element) do

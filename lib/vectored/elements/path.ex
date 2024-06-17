@@ -6,10 +6,7 @@ defmodule Vectored.Elements.Path do
   path_length
   This attribute lets authors specify the total length for the path, in user units. Value type: <number> ; Default value: none; Animatable: yes
   """
-  use Vectored.Elements.Element, d: "", path_length: nil
-
-  def rendered_key(:path_length), do: :pathLength
-  def rendered_key(k), do: k
+  use Vectored.Elements.Element, attributes: [d: "", path_length: nil]
 
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Path{} = element) do

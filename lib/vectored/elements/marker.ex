@@ -25,16 +25,9 @@ defmodule Vectored.Elements.Marker do
   This attribute defines the bound of the SVG viewport for the current SVG fragment. Value type: <list-of-numbers> ; Default value: none; Animatable: yes
   """
 
-  use Vectored.Elements.Element, marker_height: 3, marker_units: nil, marker_width: 3, orient: 0, preserve_aspect_ration: nil, ref_x: 0, ref_y: 0, view_box: nil
-
-  def rendered_key(:marker_height), do: :marker_height
-  def rendered_key(:marker_units), do: :markerUnits
-  def rendered_key(:marker_width), do: :markerWidth
-  def rendered_key(:ref_x), do: :refX
-  def rendered_key(:ref_y), do: :refY
-  def rendered_key(:view_box), do: :viewBox
-  def rendered_key(:preserve_aspect_ration), do: :preserveAspectRatio
-  def rendered_key(k), do: k
+  use Vectored.Elements.Element,
+    attributes: [marker_height: 3, marker_units: nil, marker_width: 3, orient: 0, preserve_aspect_ration: nil, ref_x: 0, ref_y: 0, view_box: nil],
+    attribute_overrides: [marker_height: :markerHeight, marker_width: :markerWidth, marker_units: :markerUnits, ref_x: :refX, ref_y: :refY]
 
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Marker{} = element) do
