@@ -1,0 +1,34 @@
+defmodule Vectored.Elements.Svg do
+  @moduledoc """
+  height
+  The displayed height of the rectangular viewport. (Not the height of its coordinate system.) Value type: <length>|<percentage> ; Default value: auto; Animatable: yes
+
+  preserveAspectRatio
+  How the svg fragment must be deformed if it is displayed with a different aspect ratio. Value type: (none| xMinYMin| xMidYMin| xMaxYMin| xMinYMid| xMidYMid| xMaxYMid| xMinYMax| xMidYMax| xMaxYMax) (meet|slice)? ; Default value: xMidYMid meet; Animatable: yes
+
+  viewBox
+  The SVG viewport coordinates for the current SVG fragment. Value type: <list-of-numbers> ; Default value: none; Animatable: yes
+
+  width
+  The displayed width of the rectangular viewport. (Not the width of its coordinate system.) Value type: <length>|<percentage> ; Default value: auto; Animatable: yes
+
+  x
+  The displayed x coordinate of the svg container. No effect on outermost svg elements. Value type: <length>|<percentage> ; Default value: 0; Animatable: yes
+
+  y
+  The displayed y coordinate of the svg container. No effect on outermost svg elements. Value type: <length>|<percentage> ; Default value: 0; Animatable: yes
+  """
+  use Vectored.Elements.Element, height: nil, width: nil, preserve_aspect_ratio: nil, view_box: nil, x: 0, y: 0, children: []
+
+  def rendered_key(:preserve_aspect_ratio), do: :preserveAspectRatio
+  def rendered_key(:view_box), do: :viewBox
+  def rendered_key(k), do: k
+
+  defimpl Vectored.Renderable do
+    def to_svg(%Vectored.Elements.Svg{children: children} = element) do
+      attrs = Vectored.Elements.Svg.attributes(element)
+      child_elems = Enum.map(children, &Vectored.Renderable.to_svg/1)
+      {:svg, attrs, child_elems}
+    end
+  end
+end
