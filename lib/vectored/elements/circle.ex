@@ -16,6 +16,9 @@ defmodule Vectored.Elements.Circle do
   use Vectored.Elements.Element,
     attributes: [cx: 0, cy: 0, r: 0, path_length: nil]
 
+  def new(r) do
+    %__MODULE__{r: r}
+  end
   def new(x, y, r) do
     %__MODULE__{cx: x, cy: y, r: r}
   end

@@ -3,6 +3,12 @@ defmodule Vectored do
   Documentation for `Vectored`.
   """
 
+  alias Vectored.Elements.Svg
+
+  def new(width, height) do
+    Svg.new(width, height)
+  end
+
   @doc """
   Render an SVG string
   """

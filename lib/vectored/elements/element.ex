@@ -46,6 +46,10 @@ defmodule Vectored.Elements.Element do
         Keyword.get(unquote(attribute_overrides), key, key)
       end
 
+      def with_fill(elem, fill) do
+        %{elem | fill: fill}
+      end
+
       def with_id(elem, id) do
         %{elem | id: id}
       end
@@ -54,9 +58,22 @@ defmodule Vectored.Elements.Element do
         %{elem | stroke: stroke}
       end
 
-      def with_fill(elem, fill) do
-        %{elem | fill: fill}
+      def with_stroke_width(elem, width) do
+        %{elem | stroke_width: width}
       end
+
+      def with_view_box(elem, width, height) do
+        with_view_box(elem, 0, 0, width, height)
+      end
+
+      def with_view_box(elem, minx, miny, width, height) do
+        %{elem | view_box: "#{minx} #{miny} #{width} #{height}"}
+      end
+
+      def with_style(elem, style) do
+        %{elem | style: style}
+      end
+
     end
   end
 
@@ -65,7 +82,8 @@ defmodule Vectored.Elements.Element do
     |> Enum.map(fn key ->
       v = Map.get(element, key)
       if v do
-        {element.__struct__.rendered_key(key), v}
+        # to_string because xmerl only deals with iolist, atom and integers
+        {element.__struct__.rendered_key(key), to_string(v)}
       end
     end)
     |> Enum.reject(&is_nil/1)

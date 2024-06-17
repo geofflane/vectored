@@ -19,6 +19,10 @@ defmodule Vectored.Elements.Line do
   use Vectored.Elements.Element,
     attributes: [x1: 0, x2: 0, y1: 0, y2: 0, path_length: nil]
 
+  def new() do
+    %__MODULE__{}
+  end
+
   def from(line, x, y) do
     %{line | x1: x, y1: y}
   end
