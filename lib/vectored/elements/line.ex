@@ -19,6 +19,14 @@ defmodule Vectored.Elements.Line do
   use Vectored.Elements.Element,
     attributes: [x1: 0, x2: 0, y1: 0, y2: 0, path_length: nil]
 
+  def from(line, x, y) do
+    %{line | x1: x, y1: y}
+  end
+
+  def to(line, x, y) do
+    %{line | x2: x, y2: y}
+  end
+
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Line{} = element) do
       attrs = Vectored.Elements.Line.attributes(element)

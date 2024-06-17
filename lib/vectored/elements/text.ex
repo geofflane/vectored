@@ -26,6 +26,18 @@ defmodule Vectored.Elements.Text do
     attributes: [x: 0, y: 0, dx: nil, dy: nil, rotate: nil, length_adjust: nil, text_length: nil, content: nil],
     attribute_overrides: [length_adjust: :lengthAdjust, text_length: :textLength]
 
+  def new(x, y, content) do
+    %__MODULE__{x: x, y: y, content: content}
+  end
+
+  def at_location(text, x, y) do
+    %{text | x: x, y: y}
+  end
+
+  def with_content(text, content) do
+    %{text | content: content}
+  end
+
   defimpl Vectored.Renderable do
     require Record
     Record.defrecord :xmlText, Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl")

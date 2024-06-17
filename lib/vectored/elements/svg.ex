@@ -21,6 +21,22 @@ defmodule Vectored.Elements.Svg do
   use Vectored.Elements.Element, 
     attributes: [height: nil, width: nil, preserve_aspect_ratio: nil, view_box: nil, x: 0, y: 0, children: []]
 
+  def new(width, height, children \\ []) do
+    %__MODULE__{width: width, height: height, children: children}
+  end
+
+  def at_location(rectangle, x, y) do
+    %{rectangle | x: x, y: y}
+  end
+
+  def with_size(rectangle, width, height) do
+    %{rectangle | width: width, height: height}
+  end
+
+  def append(%__MODULE__{children: children} = svg, child) do
+    %{svg | children: children ++ [child]}
+  end
+
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Svg{children: children} = element) do
       attrs = Vectored.Elements.Svg.attributes(element)

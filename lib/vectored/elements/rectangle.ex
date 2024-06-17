@@ -25,6 +25,14 @@ defmodule Vectored.Elements.Rectangle do
   use Vectored.Elements.Element,
     attributes: [x: 0, y: 0, width: nil, height: nil, rx: nil, ry: nil, path_length: nil]
 
+  def at_location(rectangle, x, y) do
+    %{rectangle | x: x, y: y}
+  end
+
+  def with_size(rectangle, width, height) do
+    %{rectangle | width: width, height: height}
+  end
+
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Rectangle{} = element) do
       attrs = Vectored.Elements.Rectangle.attributes(element)
