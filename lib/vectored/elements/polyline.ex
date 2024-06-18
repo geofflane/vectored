@@ -47,7 +47,7 @@ defmodule Vectored.Elements.Polyline do
             {points, points_str}
         end)
 
-      {:path, attrs, []}
+      {:polyline, attrs, []}
     end
   end
 end

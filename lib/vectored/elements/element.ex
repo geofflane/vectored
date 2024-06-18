@@ -85,9 +85,12 @@ defmodule Vectored.Elements.Element do
       v = Map.get(element, key)
       if v do
         # to_string because xmerl only deals with iolist, atom and integers
-        {element.__struct__.rendered_key(key), to_string(v)}
+        {element.__struct__.rendered_key(key), maybe_cast(v)}
       end
     end)
     |> Enum.reject(&is_nil/1)
   end
+
+  def maybe_cast(v) when is_float(v), do: to_string(v)
+  def maybe_cast(v), do: v
 end
