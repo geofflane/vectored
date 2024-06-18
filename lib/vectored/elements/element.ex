@@ -21,6 +21,8 @@ defmodule Vectored.Elements.Element do
   defmacro defelement(attributes) do
     all_attributes = Keyword.merge(@common_attributes, attributes)
     quote do
+      @type t :: %__ENV__.module{}
+
       defstruct unquote(all_attributes)
     end
   end
