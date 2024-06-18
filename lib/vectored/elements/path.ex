@@ -9,11 +9,11 @@ defmodule Vectored.Elements.Path do
   use Vectored.Elements.Element, attributes: [d: [], path_length: nil]
 
   def new(path \\ []) do
-    %__MODULE__{d: path}
+    %__MODULE__{d: path |> List.wrap()}
   end
 
   def append_path(%__MODULE__{d: d} = path, p) do
-    %{path | d: d ++ [p]}
+    %{path | d: List.wrap(d) ++ [p]}
   end
 
   def move_to(%__MODULE__{} = path, x, y) do
@@ -67,9 +67,11 @@ defmodule Vectored.Elements.Path do
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Path{} = element) do
       attrs = Vectored.Elements.Path.attributes(element)
-      {_, attrs} = Keyword.get_and_update(attrs, :d, fn d -> 
-        {d, Enum.join(d, " ")}
-      end)
+      {_, attrs} =
+        Keyword.get_and_update(attrs, :d, fn 
+          d when is_list(d) -> {d, Enum.join(d, " ")}
+          d -> {d, d}
+        end)
 
       {:path, attrs, []}
     end

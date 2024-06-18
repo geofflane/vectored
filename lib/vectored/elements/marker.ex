@@ -29,6 +29,22 @@ defmodule Vectored.Elements.Marker do
     attributes: [marker_height: 3, marker_units: nil, marker_width: 3, orient: 0, preserve_aspect_ration: nil, ref_x: 0, ref_y: 0, view_box: nil],
     attribute_overrides: [marker_height: :markerHeight, marker_width: :markerWidth, marker_units: :markerUnits, ref_x: :refX, ref_y: :refY]
 
+  def new() do
+    %__MODULE__{}
+  end
+
+  def size(marker, width, height) do
+    %{marker | marker_width: width, marker_height: height}
+  end
+
+  def at_location(marker, x, y) do
+    %{marker | ref_x: x, ref_y: y}
+  end
+
+  def orient(marker, orient) do
+    %{marker | orient: orient}
+  end
+
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Marker{} = element) do
       attrs = Vectored.Elements.Marker.attributes(element)

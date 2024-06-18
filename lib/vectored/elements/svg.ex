@@ -36,7 +36,7 @@ defmodule Vectored.Elements.Svg do
   @doc """
   Append one or more children to the svg document
   """
-  def append(%__MODULE__{children: children} = svg, children) when is_list(children) do
+  def append(%__MODULE__{} = svg, children) when is_list(children) do
     Enum.reduce(children, svg, fn child, svg -> append(svg, child) end)
   end
   def append(%__MODULE__{children: children} = svg, child) do
