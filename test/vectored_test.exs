@@ -25,7 +25,7 @@ defmodule VectoredTest do
       |> Svg.append(group)
       |> Vectored.to_svg_string()
 
-    assert "<svg width=\"100\" y=\"0\" x=\"0\" height=\"100\" xmlns=\"http://www.w3.org/2000/svg\"><g><circle r=\"5\" cx=\"1\" cy=\"1\"/><text y=\"1\" x=\"1\">test</text></g></svg>" == svg
+    assert "<svg width=\"100\" height=\"100\" xmlns=\"http://www.w3.org/2000/svg\"><g><circle r=\"5\" cx=\"1\" cy=\"1\"/><text y=\"1\" x=\"1\">test</text></g></svg>" == svg
   end
 
   test "can render xml with defs" do
@@ -38,7 +38,7 @@ defmodule VectoredTest do
       ])
       |> Vectored.to_svg_string()
 
-    assert "<svg width=\"100\" y=\"0\" x=\"0\" height=\"100\" xmlns=\"http://www.w3.org/2000/svg\"><defs><circle id=\"circle\" r=\"5\" cx=\"0\" cy=\"0\"/></defs><use y=\"10\" x=\"10\" href=\"#circle\"/><use y=\"10\" x=\"20\" href=\"#circle\"/><use y=\"10\" x=\"30\" href=\"#circle\"/></svg>" == svg
+    assert "<svg width=\"100\" height=\"100\" xmlns=\"http://www.w3.org/2000/svg\"><defs><circle id=\"circle\" r=\"5\" cx=\"0\" cy=\"0\"/></defs><use y=\"10\" x=\"10\" href=\"#circle\"/><use y=\"10\" x=\"20\" href=\"#circle\"/><use y=\"10\" x=\"30\" href=\"#circle\"/></svg>" == svg
   end
 
   test "can render line paths" do

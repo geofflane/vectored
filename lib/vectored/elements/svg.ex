@@ -19,7 +19,11 @@ defmodule Vectored.Elements.Svg do
   The displayed y coordinate of the svg container. No effect on outermost svg elements. Value type: <length>|<percentage> ; Default value: 0; Animatable: yes
   """
   use Vectored.Elements.Element, 
-    attributes: [height: nil, width: nil, preserve_aspect_ratio: nil, view_box: nil, x: 0, y: 0, children: []]
+    attributes: [height: nil, width: nil, preserve_aspect_ratio: nil, view_box: nil, x: nil, y: nil, children: []]
+
+  def new() do
+    %__MODULE__{}
+  end
 
   def new(width, height, children \\ []) do
     %__MODULE__{width: width, height: height, children: children}

@@ -5,6 +5,10 @@ defmodule Vectored do
 
   alias Vectored.Elements.Svg
 
+  def new() do
+    Svg.new()
+  end
+
   def new(width, height) do
     Svg.new(width, height)
   end
