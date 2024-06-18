@@ -6,7 +6,9 @@ defmodule Vectored.Elements.Path do
   path_length
   This attribute lets authors specify the total length for the path, in user units. Value type: <number> ; Default value: none; Animatable: yes
   """
-  use Vectored.Elements.Element, attributes: [d: [], path_length: nil]
+  use Vectored.Elements.Element,
+    attributes: [d: [], path_length: nil, marker_start: nil, marker_end: nil, marker_mid: nil],
+    attribute_overrides: [marker_start: :"marker-start", marker_end: :"marker-end", marker_mid: :"marker-mid"]
 
   def new(path \\ []) do
     %__MODULE__{d: path |> List.wrap()}
@@ -62,6 +64,18 @@ defmodule Vectored.Elements.Path do
 
   def close_path(%__MODULE__{} = path) do
     append_path(path, "Z")
+  end
+
+  def with_marker_start(path, ref) do
+    %{path | marker_start: ref}
+  end
+
+  def with_marker_mid(path, ref) do
+    %{path | marker_mid: ref}
+  end
+
+  def with_marker_end(path, ref) do
+    %{path | marker_end: ref}
   end
 
   defimpl Vectored.Renderable do

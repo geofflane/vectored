@@ -26,7 +26,7 @@ defmodule Vectored.Elements.Marker do
   """
 
   use Vectored.Elements.Element,
-    attributes: [marker_height: 3, marker_units: nil, marker_width: 3, orient: 0, preserve_aspect_ration: nil, ref_x: 0, ref_y: 0, view_box: nil],
+    attributes: [marker_height: 3, marker_units: nil, marker_width: 3, orient: 0, preserve_aspect_ration: nil, ref_x: 0, ref_y: 0, view_box: nil, children: []],
     attribute_overrides: [marker_height: :markerHeight, marker_width: :markerWidth, marker_units: :markerUnits, ref_x: :refX, ref_y: :refY]
 
   def new() do
@@ -37,7 +37,7 @@ defmodule Vectored.Elements.Marker do
     %{marker | marker_width: width, marker_height: height}
   end
 
-  def at_location(marker, x, y) do
+  def ref(marker, x, y) do
     %{marker | ref_x: x, ref_y: y}
   end
 
@@ -45,10 +45,15 @@ defmodule Vectored.Elements.Marker do
     %{marker | orient: orient}
   end
 
+  def with_shape(marker, shape) do
+    %{marker | children: List.wrap(shape)}
+  end
+
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.Marker{} = element) do
+    def to_svg(%Vectored.Elements.Marker{children: children} = element) do
       attrs = Vectored.Elements.Marker.attributes(element)
-      {:marker, attrs, []}
+      child_elems = Enum.map(children, &Vectored.Renderable.to_svg/1)
+      {:marker, attrs, child_elems}
     end
   end
 end
