@@ -24,7 +24,7 @@ Add it to your Mix file
 
 ### Simple image
 
-```
+```elixir
 alias Vectored
 alias Vectored.Elements.{Path, Svg}
 
@@ -50,7 +50,7 @@ Creates an SVG image:
 
 ### Programmatic Example
 
-```
+```elixir
 defmodule FieldDiagram do
   alias Vectored
   alias Vectored.Elements.{Circle, Defs, Group, Line, Marker, Path, Polyline, Svg, Use}
