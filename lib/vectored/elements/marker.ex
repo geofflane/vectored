@@ -65,7 +65,8 @@ defmodule Vectored.Elements.Marker do
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Marker{children: children} = element) do
       attrs = Vectored.Elements.Marker.attributes(element)
-      child_elems = Enum.map(children, &Vectored.Renderable.to_svg/1)
+      child_elems = Enum.map(children, &Vectored.Renderable.to_svg/1) ++
+        Vectored.Elements.Element.render_common_children(element)
       {:marker, attrs, child_elems}
     end
   end

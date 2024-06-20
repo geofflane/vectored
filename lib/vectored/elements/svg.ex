@@ -18,8 +18,10 @@ defmodule Vectored.Elements.Svg do
   y
   The displayed y coordinate of the svg container. No effect on outermost svg elements. Value type: <length>|<percentage> ; Default value: 0; Animatable: yes
   """
-  use Vectored.Elements.Element, 
-    attributes: [height: nil, width: nil, preserve_aspect_ratio: nil, view_box: nil, x: nil, y: nil, children: []]
+  alias Vectored.Elements.Defs
+
+  use Vectored.Elements.Element,
+    attributes: [height: nil, width: nil, preserve_aspect_ratio: nil, view_box: nil, x: nil, y: nil, defs: nil, children: []]
 
   @type children :: list(Vectored.Renderable.t())
   @type t :: %__MODULE__{
@@ -29,7 +31,8 @@ defmodule Vectored.Elements.Svg do
     height: String.t() | number() | nil,
     view_box: String.t() | nil,
     preserve_aspect_ratio: String.t() | nil,
-    children: children()
+    children: children(),
+    defs: Vectored.Elements.Defs.t() | nil
   }
 
   @spec new() :: t()
@@ -58,21 +61,41 @@ defmodule Vectored.Elements.Svg do
   @doc """
   Append one or more children to the svg document
   """
-  def append(%__MODULE__{} = svg, children) when is_list(children) do
-    Enum.reduce(children, svg, fn child, svg -> append(svg, child) end)
+  def append(%__MODULE__{children: children} = svg, elements) when is_list(elements) do
+    %{svg | children: children ++ elements}
   end
   def append(%__MODULE__{} = svg, func) when is_function(func) do
     append(svg, func.())
   end
-  def append(%__MODULE__{children: children} = svg, child) do
-    %{svg | children: children ++ [child]}
+  def append(%__MODULE__{} = svg, element) do
+    append(svg, List.wrap(element))
+  end
+
+  def append_defs(%__MODULE__{defs: defs} = svg, elements) when is_list(elements) do
+    new_defs =
+      if defs do
+        defs
+        |> Defs.append(elements)
+      else
+        Defs.new(elements)
+      end
+
+    %{svg | defs: new_defs}
+  end
+  def append_defs(%__MODULE__{} = svg, element) do
+    append_defs(svg, List.wrap(element))
   end
 
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.Svg{children: children} = element) do
-      attrs = Vectored.Elements.Svg.attributes(element)
+    def to_svg(%Vectored.Elements.Svg{children: children, defs: defs} = element) do
+      attrs = Vectored.Elements.Svg.attributes(element) |> Keyword.drop([:defs])
+      common_children = Vectored.Elements.Element.render_common_children(element)
+
       child_elems = Enum.map(children, &Vectored.Renderable.to_svg/1)
-      {:svg, attrs, child_elems}
+      def_elem = if defs, do: [Vectored.Renderable.to_svg(defs)], else: []
+
+      children = common_children ++ def_elem ++ child_elems
+      {:svg, attrs, def_elem ++ children}
     end
   end
 end

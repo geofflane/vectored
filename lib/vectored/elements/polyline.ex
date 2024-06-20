@@ -45,6 +45,8 @@ defmodule Vectored.Elements.Polyline do
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Polyline{} = element) do
       attrs = Vectored.Elements.Polyline.attributes(element)
+      children = Vectored.Elements.Element.render_common_children(element)
+
       {_, attrs} =
         Keyword.get_and_update(attrs, :points, fn 
           points-> 
@@ -55,7 +57,7 @@ defmodule Vectored.Elements.Polyline do
             {points, points_str}
         end)
 
-      {:polyline, attrs, []}
+      {:polyline, attrs, children}
     end
   end
 end

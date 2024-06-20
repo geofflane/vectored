@@ -91,13 +91,14 @@ defmodule Vectored.Elements.Path do
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Path{} = element) do
       attrs = Vectored.Elements.Path.attributes(element)
+      children = Vectored.Elements.Element.render_common_children(element)
       {_, attrs} =
         Keyword.get_and_update(attrs, :d, fn 
           d when is_list(d) -> {d, Enum.join(d, " ")}
           d -> {d, d}
         end)
 
-      {:path, attrs, []}
+      {:path, attrs, children}
     end
   end
 end

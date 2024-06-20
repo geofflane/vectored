@@ -51,7 +51,8 @@ defmodule Vectored.Elements.Circle do
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Circle{} = element) do
       attrs = Vectored.Elements.Circle.attributes(element)
-      {:circle, attrs, []}
+      children = Vectored.Elements.Element.render_common_children(element)
+      {:circle, attrs, children}
     end
   end
 end

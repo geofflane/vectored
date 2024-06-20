@@ -43,7 +43,8 @@ defmodule Vectored.Elements.Line do
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Line{} = element) do
       attrs = Vectored.Elements.Line.attributes(element)
-      {:line, attrs, []}
+      children = Vectored.Elements.Element.render_common_children(element)
+      {:line, attrs, children}
     end
   end
 end

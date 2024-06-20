@@ -1,6 +1,6 @@
 defmodule VectoredTest do
   use ExUnit.Case, async: true
-  alias Vectored.Elements.{Circle, Defs, Group, Path, Text, Svg, Use}
+  alias Vectored.Elements.{Circle, Group, Path, Text, Svg, Use}
 
   test "can render svg" do
     group =
@@ -30,8 +30,9 @@ defmodule VectoredTest do
 
   test "can render xml with defs" do
     assert {:ok, svg} =
-      Svg.new(100, 100, [
-        Defs.new([%Circle{id: "circle", r: 5}]),
+      Svg.new(100, 100)
+      |> Svg.append_defs([%Circle{id: "circle", r: 5}])
+      |> Svg.append([
         Use.new("#circle", 10, 10),
         Use.new("#circle", 20, 10),
         Use.new("#circle", 30, 10),

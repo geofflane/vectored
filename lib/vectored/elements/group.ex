@@ -28,7 +28,8 @@ defmodule Vectored.Elements.Group do
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Group{children: children} = element) do
       attrs = Vectored.Elements.Group.attributes(element)
-      child_elems = Enum.map(children, &Vectored.Renderable.to_svg/1)
+      child_elems = Enum.map(children, &Vectored.Renderable.to_svg/1) ++
+        Vectored.Elements.Element.render_common_children(element)
       {:g, attrs, child_elems}
     end
   end

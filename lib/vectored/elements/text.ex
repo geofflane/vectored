@@ -61,7 +61,8 @@ defmodule Vectored.Elements.Text do
     def to_svg(%Vectored.Elements.Text{content: content} = element) do
       attrs = Vectored.Elements.Text.attributes(element)
       text = xmlText(value: content)
-      {:text, attrs, [text]}
+      children = Vectored.Elements.Element.render_common_children(element)
+      {:text, attrs, [text | children]}
     end
   end
 end

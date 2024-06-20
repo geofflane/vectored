@@ -50,7 +50,8 @@ defmodule Vectored.Elements.Rectangle do
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Rectangle{} = element) do
       attrs = Vectored.Elements.Rectangle.attributes(element)
-      {:rectangle, attrs, []}
+      children = Vectored.Elements.Element.render_common_children(element)
+      {:rectangle, attrs, children}
     end
   end
 end

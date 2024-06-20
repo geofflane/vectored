@@ -16,7 +16,9 @@ defmodule Vectored.Elements.Element do
     style: nil,
     fill: nil,         # "white",
     stroke: nil,       # "black",
-    stroke_width: nil  # 5
+    stroke_width: nil,  # 5
+    desc: nil,
+    title: nil,
   ]
 
   @type attributes :: %{
@@ -43,6 +45,13 @@ defmodule Vectored.Elements.Element do
     end
   end
 
+  @spec render_common_children(any()) :: list()
+  def render_common_children(element) do
+    element
+    |> Map.take([:title, :desc])
+    |> Enum.map(fn {_k, elem} -> Vectored.Renderable.to_svg(elem) end)
+  end
+
   @doc """
   Helper used to define an element.
   """
@@ -56,7 +65,7 @@ defmodule Vectored.Elements.Element do
       defelement unquote(attributes)
 
       def attrs() do
-        (__ENV__.module.__struct__() |> Map.keys()) -- [:__struct__, :content, :children]
+        (__ENV__.module.__struct__() |> Map.keys()) -- [:__struct__, :content, :children, :desc, :title]
       end
 
       def attributes(element) do
@@ -93,6 +102,14 @@ defmodule Vectored.Elements.Element do
 
       def with_style(elem, style) do
         %{elem | style: style}
+      end
+
+      def with_description(elem, content) do
+        %{elem | desc: Vectored.Elements.Desc.new(content)}
+      end
+
+      def with_title(elem, content) do
+        %{elem | title: Vectored.Elements.Title.new(content)}
       end
     end
   end
