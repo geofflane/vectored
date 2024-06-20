@@ -136,3 +136,10 @@ end
 - Validate attributes (types, required, etc)
 - More SVG structures
 - More extensive tests (test xml output with xpath?)
+
+
+## Copyright and License
+
+Copyright (c) 2024, Geoff Lane.
+
+Source code is licensed under the MIT License.
