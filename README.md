@@ -124,7 +124,7 @@ defmodule FieldDiagram do
   end
 end
 
-with {:ok, svg} <- FieldDiagram.generate_svg(600, 60) do
+with {:ok, svg} <- FieldDiagram.generate_svg(160, 60) do
   File.write!("field.svg", svg)
 end
 ```
