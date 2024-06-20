@@ -4,9 +4,9 @@ Simple library for drawing SVG images programatially with Elixir.
 
 ## Pros and Cons
 
-* No external dependencies
-* Just low-level SVG structures. Build your own library of shaps on top of it.
-* Pretty be extensible.
+* No external dependencies at runtime (just this library and xmerl built into Erlang)
+* Just low-level SVG structures. Build your own library of shapes on top of it
+* Pretty extensible
   * Vectored.Elements.Element provides a `defelement` function that includes a lot of basic functionality
   * Vectored.Renderable protocol allows you to implement your own custom elements however you want
 
@@ -135,3 +135,4 @@ end
 
 - Validate attributes (types, required, etc)
 - More SVG structures
+- More extensive tests (test xml output with xpath?)
