@@ -28,12 +28,22 @@ defmodule Vectored.Elements.Rectangle do
   @type t :: %__MODULE__{
     x: String.t() | number(),
     y: String.t() | number(),
-    width: String.t() | number(),
-    height: String.t() | number(),
-    rx: String.t() | number(),
-    ry: String.t() | number(),
-    path_length: String.t(),
+    width: String.t() | number() | nil,
+    height: String.t() | number() | nil,
+    rx: String.t() | number() | nil,
+    ry: String.t() | number() | nil,
+    path_length: String.t() | nil,
   }
+
+  @spec new() :: t()
+  def new() do
+    %__MODULE__{}
+  end
+
+  @spec new(number(), number(), number(), number()) :: t()
+  def new(x, y, width, height) do
+    %__MODULE__{x: x, y: y, width: width, height: height}
+  end
 
   @doc """
   Set the x and y properties of the Rectangle to set its location

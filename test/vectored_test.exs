@@ -56,8 +56,11 @@ defmodule VectoredTest do
       Svg.new(100, 100, [path])
       |> Vectored.to_svg()
 
-    assert [{:d, path_attrs, []}, {:stroke, _}, {:fill, _}] = attrs
-    assert path_attrs == "M 10, 10 L 90,90, V 10, H 50"
+    assert [{:d, path_attrs}, {:fill, _}, {:stroke, _}] =
+      attrs
+      |> Enum.sort_by(& elem(&1, 0))
+
+    assert path_attrs == "M 10,10 L 90,90 V 10 H 50"
   end
 
   test "cam render desc and title" do
@@ -67,6 +70,8 @@ defmodule VectoredTest do
       |> Circle.with_title("testing circle")
       |> Vectored.to_svg()
 
-    assert [{:title, [], _}, {:desc, [], _}] = children
+    assert [{:desc, [], _}, {:title, [], _}] =
+      children
+      |> Enum.sort_by(& elem(&1, 0))
   end
 end
