@@ -19,6 +19,7 @@ defmodule Vectored.Elements.Element do
     stroke_width: nil,  # 5
     desc: nil,
     title: nil,
+    transform: nil,
   ]
 
   @type attributes :: %{
@@ -104,8 +105,13 @@ defmodule Vectored.Elements.Element do
         %{elem | view_box: "#{minx} #{miny} #{width} #{height}"}
       end
 
+      # TODO: Accept a string or a keyword list
       def with_style(elem, style) do
         %{elem | style: style}
+      end
+
+      def with_transform(elem, transform) do
+        %{elem | transform: transform}
       end
 
       def with_description(elem, content) do
