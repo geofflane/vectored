@@ -10,6 +10,16 @@ defmodule Vectored.Elements.Path do
     attributes: [d: [], path_length: nil, marker_start: nil, marker_end: nil, marker_mid: nil],
     attribute_overrides: [marker_start: :"marker-start", marker_end: :"marker-end", marker_mid: :"marker-mid"]
 
+  @type paths :: list(String.t())
+  @type t :: %__MODULE__{
+    d: paths(),
+    path_length: String.t() | number() | nil,
+    marker_start: String.t() | nil,
+    marker_mid: String.t() | nil,
+    marker_end: String.t() | nil,
+  }
+
+  @spec new(paths()) :: t()
   def new(path \\ []) do
     %__MODULE__{d: path |> List.wrap()}
   end

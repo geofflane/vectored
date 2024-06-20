@@ -2,6 +2,12 @@ defmodule Vectored.Elements.Group do
   use Vectored.Elements.Element,
     attributes: [children: []]
 
+  @type children() :: list(Vectored.Renderable.t())
+  @type t :: %__MODULE__{
+    children: children()
+  }
+
+  @spec new(children()) :: t()
   def new(children \\ []) do
     %__MODULE__{children: children}
   end
@@ -11,6 +17,9 @@ defmodule Vectored.Elements.Group do
   """
   def append(%__MODULE__{} = svg, children) when is_list(children) do
     Enum.reduce(children, svg, fn child, svg -> append(svg, child) end)
+  end
+  def append(%__MODULE__{} = svg, func) when is_function(func) do
+    append(svg, func.())
   end
   def append(%__MODULE__{children: children} = svg, child) do
     %{svg | children: children ++ [child]}

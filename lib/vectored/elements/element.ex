@@ -1,7 +1,8 @@
 defmodule Vectored.Elements.Element do
   @moduledoc """
-  Helps to build elements by including common elements
+  Helps to build elements by including common elements.
   """
+
   @default_overrides [
     pathLength: :path_length,
     stroke_width: :"stroke-width",
@@ -18,15 +19,33 @@ defmodule Vectored.Elements.Element do
     stroke_width: nil  # 5
   ]
 
+  @type attributes :: %{
+    optional(:attributes) => Keyword.t(),
+    optional(:attribute_overrides) => Keyword.t(),
+  }
+
+  @doc """
+  Defome an element that includes the default SVG attributes common to all SVG
+  elements.
+
+  ### Example
+
+  ```
+  use Vectored.Elements.Element,
+       attributes: [cx: 0, cy: 0, r: 0, path_length: nil]
+  ```
+  """
   defmacro defelement(attributes) do
     all_attributes = Keyword.merge(@common_attributes, attributes)
-    quote do
-      @type t :: %__ENV__.module{}
 
+    quote do
       defstruct unquote(all_attributes)
     end
   end
 
+  @doc """
+  Helper used to define an element.
+  """
   defmacro __using__(opts) do
     attributes = Keyword.get(opts, :attributes, [])
     attribute_overrides = Keyword.merge(@default_overrides, Keyword.get(opts, :attribute_overrides, []))
@@ -75,7 +94,6 @@ defmodule Vectored.Elements.Element do
       def with_style(elem, style) do
         %{elem | style: style}
       end
-
     end
   end
 

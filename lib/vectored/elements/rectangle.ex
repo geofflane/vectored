@@ -25,6 +25,20 @@ defmodule Vectored.Elements.Rectangle do
   use Vectored.Elements.Element,
     attributes: [x: 0, y: 0, width: nil, height: nil, rx: nil, ry: nil, path_length: nil]
 
+  @type t :: %__MODULE__{
+    x: String.t() | number(),
+    y: String.t() | number(),
+    width: String.t() | number(),
+    height: String.t() | number(),
+    rx: String.t() | number(),
+    ry: String.t() | number(),
+    path_length: String.t(),
+  }
+
+  @doc """
+  Set the x and y properties of the Rectangle to set its location
+  """
+  @spec at_location(t(), String.t() | number(),  String.t() | number()) :: t()
   def at_location(rectangle, x, y) do
     %{rectangle | x: x, y: y}
   end

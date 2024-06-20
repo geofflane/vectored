@@ -19,6 +19,15 @@ defmodule Vectored.Elements.Line do
   use Vectored.Elements.Element,
     attributes: [x1: 0, x2: 0, y1: 0, y2: 0, path_length: nil]
 
+  @type t :: %__MODULE__{
+    x1: String.t() | number(),
+    y1: String.t() | number(),
+    x2: String.t() | number(),
+    y2: String.t() | number(),
+    path_length: number() | nil,
+  }
+
+  @spec new() :: t()
   def new() do
     %__MODULE__{}
   end

@@ -21,14 +21,32 @@ defmodule Vectored.Elements.Svg do
   use Vectored.Elements.Element, 
     attributes: [height: nil, width: nil, preserve_aspect_ratio: nil, view_box: nil, x: nil, y: nil, children: []]
 
+  @type children :: list(Vectored.Renderable.t())
+  @type t :: %__MODULE__{
+    x: String.t() | number() | nil,
+    y: String.t() | number() | nil,
+    width: String.t() | number() | nil,
+    height: String.t() | number() | nil,
+    view_box: String.t() | nil,
+    preserve_aspect_ratio: String.t() | nil,
+    children: children()
+  }
+
+  @spec new() :: t()
   def new() do
     %__MODULE__{}
   end
 
+  @spec new(String.t() | number(), String.t() | number(), children()) :: t()
+  @spec new(String.t() | number(), String.t() | number()) :: t()
   def new(width, height, children \\ []) do
     %__MODULE__{width: width, height: height, children: children}
   end
 
+  @doc """
+  Set the x and y properties of the Svg to set its location
+  """
+  @spec at_location(t(), String.t() | number(),  String.t() | number()) :: t()
   def at_location(rectangle, x, y) do
     %{rectangle | x: x, y: y}
   end
@@ -42,6 +60,9 @@ defmodule Vectored.Elements.Svg do
   """
   def append(%__MODULE__{} = svg, children) when is_list(children) do
     Enum.reduce(children, svg, fn child, svg -> append(svg, child) end)
+  end
+  def append(%__MODULE__{} = svg, func) when is_function(func) do
+    append(svg, func.())
   end
   def append(%__MODULE__{children: children} = svg, child) do
     %{svg | children: children ++ [child]}

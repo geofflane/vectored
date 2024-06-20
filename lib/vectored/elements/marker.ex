@@ -29,6 +29,19 @@ defmodule Vectored.Elements.Marker do
     attributes: [marker_height: 3, marker_units: nil, marker_width: 3, orient: 0, preserve_aspect_ration: nil, ref_x: 0, ref_y: 0, view_box: nil, children: []],
     attribute_overrides: [marker_height: :markerHeight, marker_width: :markerWidth, marker_units: :markerUnits, ref_x: :refX, ref_y: :refY]
 
+  @type t :: %__MODULE__{
+    marker_height: number(),
+    marker_units: number() | nil,
+    marker_width: number(),
+    orient: String.t() | number(),
+    preserve_aspect_ration: String.t() | nil,
+    ref_x: number() | String.t(),
+    ref_y: number() | String.t(),
+    view_box: String.t() | nil,
+    children: list(Vectored.Renderable.t()),
+  }
+
+  @spec new() :: t()
   def new() do
     %__MODULE__{}
   end

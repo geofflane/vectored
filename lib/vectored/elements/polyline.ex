@@ -11,8 +11,16 @@ defmodule Vectored.Elements.Polyline do
     attribute_overrides: [marker_start: :"marker-start", marker_end: :"marker-end", marker_mid: :"marker-mid"]
 
   @type point :: {number(), number()}
+  @type t :: %__MODULE__{
+    points: list(point()),
+    path_length: String.t() | number() | nil,
+    marker_start: String.t() | nil,
+    marker_mid: String.t() | nil,
+    marker_end: String.t() | nil
+  }
 
   @spec new(list(point())) :: t()
+  @spec new() :: t()
   def new(points \\ []) do
     %__MODULE__{points: points |> List.wrap()}
   end

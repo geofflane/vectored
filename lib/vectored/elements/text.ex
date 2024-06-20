@@ -26,10 +26,26 @@ defmodule Vectored.Elements.Text do
     attributes: [x: 0, y: 0, dx: nil, dy: nil, rotate: nil, length_adjust: nil, text_length: nil, content: nil],
     attribute_overrides: [length_adjust: :lengthAdjust, text_length: :textLength]
 
+  @type t :: %__MODULE__{
+    x: String.t() | number(),
+    y: String.t() | number(),
+    dx: String.t() | number() | nil,
+    dy: String.t() | number() | nil,
+    rotate: String.t() | nil,
+    length_adjust: String.t() | number() | nil,
+    text_length: String.t() | number() | nil,
+    content: String.t()
+  }
+
+  @spec new(String.t() | number(), String.t() | number(), String.t()) :: t()
   def new(x, y, content) do
     %__MODULE__{x: x, y: y, content: content}
   end
 
+  @doc """
+  Set the x and y properties of the Circle to set its location
+  """
+  @spec at_location(t(), String.t() | number(),  String.t() |number()) :: t()
   def at_location(text, x, y) do
     %{text | x: x, y: y}
   end
