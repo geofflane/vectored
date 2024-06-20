@@ -95,7 +95,7 @@ defmodule Vectored.Elements.Svg do
       def_elem = if defs, do: [Vectored.Renderable.to_svg(defs)], else: []
 
       children = common_children ++ def_elem ++ child_elems
-      {:svg, attrs, def_elem ++ children}
+      {:svg, attrs, children}
     end
   end
 end

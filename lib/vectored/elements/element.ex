@@ -49,7 +49,11 @@ defmodule Vectored.Elements.Element do
   def render_common_children(element) do
     element
     |> Map.take([:title, :desc])
-    |> Enum.map(fn {_k, elem} -> Vectored.Renderable.to_svg(elem) end)
+    |> Enum.map(fn
+      {_k, nil} -> nil
+      {_k, elem} -> Vectored.Renderable.to_svg(elem)
+    end)
+    |> Enum.reject(&is_nil/1)
   end
 
   @doc """

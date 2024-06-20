@@ -52,10 +52,21 @@ defmodule VectoredTest do
       |> Path.vertical_line_to(10)
       |> Path.horizontal_line_to(50)
 
-    assert {:ok, svg} =
+    assert {:svg, _attrs, [{:path, attrs, []}]} =
       Svg.new(100, 100, [path])
-      |> Vectored.to_svg_string()
+      |> Vectored.to_svg()
 
-    assert svg
+    assert [{:d, path_attrs, []}, {:stroke, _}, {:fill, _}] = attrs
+    assert path_attrs == "M 10, 10 L 90,90, V 10, H 50"
+  end
+
+  test "cam render desc and title" do
+    assert {:circle, _attrs, children} =
+      Circle.new(10)
+      |> Circle.with_description("I'm a circle")
+      |> Circle.with_title("testing circle")
+      |> Vectored.to_svg()
+
+    assert [{:title, [], _}, {:desc, [], _}] = children
   end
 end

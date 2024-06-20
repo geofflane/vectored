@@ -20,7 +20,7 @@ defmodule Vectored.Elements.Title do
     require Record
     Record.defrecord :xmlText, Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl")
 
-    def to_svg(%Vectored.Elements.Desc{content: content}) do
+    def to_svg(%Vectored.Elements.Title{content: content}) do
       text = xmlText(value: content)
       {:title, [], [text]}
     end
