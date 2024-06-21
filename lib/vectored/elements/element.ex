@@ -4,7 +4,7 @@ defmodule Vectored.Elements.Element do
   """
 
   @default_overrides [
-    pathLength: :path_length,
+    path_length: :pathLength,
     stroke_width: :"stroke-width",
     view_box: :viewBox,
     preserve_aspect_ratio: :preserveAspectRatio,
