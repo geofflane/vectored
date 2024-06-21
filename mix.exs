@@ -10,6 +10,15 @@ defmodule Vectored.MixProject do
       deps: deps(),
       dialyzer: [
         plt_add_apps: [:xmerl],
+      ],
+      # Docs
+      name: "Vectored",
+      source_url: "https://github.com/geofflane/vectored.git",
+      homepage_url: "https://github.com/geofflane/vectored.git",
+      docs: [
+        main: "Vectored", # The main page in the docs
+        # logo: "path/to/logo.png",
+        extras: ["README.md"]
       ]
     ]
   end
@@ -25,6 +34,7 @@ defmodule Vectored.MixProject do
   defp deps do
     [
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.31", only: :dev, runtime: false},
     ]
   end
 end

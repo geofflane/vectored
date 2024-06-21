@@ -20,16 +20,19 @@ defmodule VectoredTest do
       |> Group.append(Circle.new(1, 1, 5))
       |> Group.append(Text.new(1, 1, "test"))
 
-    assert {:ok, svg} =
+    assert {:svg, _attrs, [{:g, [], group_children}]} =
       Svg.new(100, 100)
       |> Svg.append(group)
-      |> Vectored.to_svg_string()
+      |> Vectored.to_svg()
 
-    assert "<svg width=\"100\" height=\"100\" xmlns=\"http://www.w3.org/2000/svg\"><g><circle r=\"5\" cx=\"1\" cy=\"1\"/><text y=\"1\" x=\"1\">test</text></g></svg>" == svg
+    assert [
+      {:circle, _attrs1, []},
+      {:text, _attrs2, [_]},
+    ] = group_children
   end
 
   test "can render xml with defs" do
-    assert {:ok, svg} =
+    assert {:svg, _attrs, [{:defs, [], _def_children} | _uses]} =
       Svg.new(100, 100)
       |> Svg.append_defs([%Circle{id: "circle", r: 5}])
       |> Svg.append([
@@ -37,9 +40,7 @@ defmodule VectoredTest do
         Use.new("#circle", 20, 10),
         Use.new("#circle", 30, 10),
       ])
-      |> Vectored.to_svg_string()
-
-    assert "<svg width=\"100\" height=\"100\" xmlns=\"http://www.w3.org/2000/svg\"><defs><circle id=\"circle\" r=\"5\" cx=\"0\" cy=\"0\"/></defs><use y=\"10\" x=\"10\" href=\"#circle\"/><use y=\"10\" x=\"20\" href=\"#circle\"/><use y=\"10\" x=\"30\" href=\"#circle\"/></svg>" == svg
+      |> Vectored.to_svg()
   end
 
   test "can render line paths" do

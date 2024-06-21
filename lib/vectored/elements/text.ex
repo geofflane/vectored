@@ -23,7 +23,13 @@ defmodule Vectored.Elements.Text do
   """
 
   use Vectored.Elements.Element,
-    attributes: [x: 0, y: 0, dx: nil, dy: nil, rotate: nil, length_adjust: nil, text_length: nil, content: nil],
+    attributes: [x: 0, y: 0, dx: nil, dy: nil, rotate: nil,
+      length_adjust: nil,
+      text_length: nil,
+      content: nil,
+      font_size: nil,
+
+    ],
     attribute_overrides: [length_adjust: :lengthAdjust, text_length: :textLength]
 
   @type t :: %__MODULE__{
@@ -32,7 +38,7 @@ defmodule Vectored.Elements.Text do
     dx: String.t() | number() | nil,
     dy: String.t() | number() | nil,
     rotate: String.t() | nil,
-    length_adjust: String.t() | number() | nil,
+    length_adjust: String.t() | nil,
     text_length: String.t() | number() | nil,
     content: String.t()
   }
@@ -48,10 +54,6 @@ defmodule Vectored.Elements.Text do
   @spec at_location(t(), String.t() | number(),  String.t() |number()) :: t()
   def at_location(text, x, y) do
     %{text | x: x, y: y}
-  end
-
-  def with_content(text, content) do
-    %{text | content: content}
   end
 
   defimpl Vectored.Renderable do
