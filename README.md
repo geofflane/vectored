@@ -15,7 +15,7 @@ Simple library for drawing SVG images programatially with Elixir.
 Add it to your Mix file
 
 ```
-{:vectored, git: "https://github.com/geofflane/vectored.git", tag: "0.2.0"}
+{:vectored, git: "https://github.com/geofflane/vectored.git", tag: "0.3.0"}
 
 ```
 
