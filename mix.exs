@@ -4,19 +4,20 @@ defmodule Vectored.MixProject do
   def project do
     [
       app: :vectored,
-      version: "0.3.0",
+      version: "0.3.1",
       elixir: "~> 1.17",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       dialyzer: [
-        plt_add_apps: [:xmerl],
+        plt_add_apps: [:xmerl]
       ],
       # Docs
       name: "Vectored",
       source_url: "https://github.com/geofflane/vectored.git",
       homepage_url: "https://github.com/geofflane/vectored.git",
       docs: [
-        main: "Vectored", # The main page in the docs
+        # The main page in the docs
+        main: "Vectored",
         # logo: "path/to/logo.png",
         extras: ["README.md"]
       ]
@@ -34,7 +35,7 @@ defmodule Vectored.MixProject do
   defp deps do
     [
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.31", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.31", only: :dev, runtime: false}
     ]
   end
 end
