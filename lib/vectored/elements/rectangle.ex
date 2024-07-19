@@ -26,14 +26,14 @@ defmodule Vectored.Elements.Rectangle do
     attributes: [x: 0, y: 0, width: nil, height: nil, rx: nil, ry: nil, path_length: nil]
 
   @type t :: %__MODULE__{
-    x: String.t() | number(),
-    y: String.t() | number(),
-    width: String.t() | number() | nil,
-    height: String.t() | number() | nil,
-    rx: String.t() | number() | nil,
-    ry: String.t() | number() | nil,
-    path_length: String.t() | nil,
-  }
+          x: String.t() | number(),
+          y: String.t() | number(),
+          width: String.t() | number() | nil,
+          height: String.t() | number() | nil,
+          rx: String.t() | number() | nil,
+          ry: String.t() | number() | nil,
+          path_length: String.t() | nil
+        }
 
   @spec new() :: t()
   def new() do
@@ -48,7 +48,7 @@ defmodule Vectored.Elements.Rectangle do
   @doc """
   Set the x and y properties of the Rectangle to set its location
   """
-  @spec at_location(t(), String.t() | number(),  String.t() | number()) :: t()
+  @spec at_location(t(), String.t() | number(), String.t() | number()) :: t()
   def at_location(rectangle, x, y) do
     %{rectangle | x: x, y: y}
   end
@@ -61,7 +61,7 @@ defmodule Vectored.Elements.Rectangle do
     def to_svg(%Vectored.Elements.Rectangle{} = element) do
       attrs = Vectored.Elements.Rectangle.attributes(element)
       children = Vectored.Elements.Element.render_common_children(element)
-      {:rectangle, attrs, children}
+      {:rect, attrs, children}
     end
   end
 end
