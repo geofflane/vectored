@@ -29,12 +29,12 @@ defmodule Vectored.Elements.Use do
     attributes: [href: nil, x: 0, y: 0, width: nil, height: nil]
 
   @type t :: %__MODULE__{
-    href: String.t(),
-    x: String.t() | number() | nil,
-    y: String.t() | number() | nil,
-    width: String.t() | number() | nil,
-    height: String.t() | number() | nil,
-  }
+          href: String.t(),
+          x: String.t() | number() | nil,
+          y: String.t() | number() | nil,
+          width: String.t() | number() | nil,
+          height: String.t() | number() | nil
+        }
 
   @spec new(String.t()) :: t()
   def new(href) do
@@ -49,7 +49,7 @@ defmodule Vectored.Elements.Use do
   @doc """
   Set the x and y properties of the Use to set its location
   """
-  @spec at_location(t(), String.t() | number(),  String.t() | number()) :: t()
+  @spec at_location(t(), String.t() | number(), String.t() | number()) :: t()
   def at_location(use, x, y) do
     %{use | x: x, y: y}
   end
@@ -61,7 +61,8 @@ defmodule Vectored.Elements.Use do
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Use{} = element) do
       attrs = Vectored.Elements.Use.attributes(element)
-      {:use, attrs, []}
+      common_children = Vectored.Elements.Element.render_common_children(element)
+      {:use, attrs, common_children}
     end
   end
 end
