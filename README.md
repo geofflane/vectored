@@ -1,3 +1,5 @@
+![Tests](https://github.com/geofflane/vectored/actions/workflows/elixir.yml/badge.svg)
+
 # Vectored
 
 Simple library for drawing SVG images programatially with Elixir.
