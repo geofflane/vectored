@@ -193,7 +193,7 @@ defmodule Vectored.Elements.Element do
       defelement unquote(attributes)
 
       def attrs() do
-        (__ENV__.module.__struct__() |> Map.keys()) -- [:__struct__, :content, :children, :desc, :title]
+        (__ENV__.module.__struct__() |> Map.keys()) -- [:__struct__, :content, :children, :desc, :title, :private]
       end
 
       def attributes(element) do
