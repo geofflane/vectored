@@ -48,6 +48,11 @@ defmodule Vectored.Elements.Text do
     %__MODULE__{x: x, y: y, content: content}
   end
 
+  @spec new(String.t()) :: t()
+  def new(content) do
+    %__MODULE__{content: content}
+  end
+
   @doc """
   Set the x and y properties of the Circle to set its location
   """
