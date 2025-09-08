@@ -21,7 +21,7 @@ defmodule Vectored.Elements.Svg do
   alias Vectored.Elements.Defs
 
   use Vectored.Elements.Element,
-    attributes: [height: nil, width: nil, preserve_aspect_ratio: nil, view_box: nil, x: nil, y: nil, defs: nil, children: []]
+    attributes: [height: nil, width: nil, preserve_aspect_ratio: nil, view_box: nil, x: nil, y: nil, defs: nil, children: [], private: %{}]
 
   @type children :: list(Vectored.Renderable.t())
   @type t :: %__MODULE__{
@@ -32,7 +32,8 @@ defmodule Vectored.Elements.Svg do
     view_box: String.t() | nil,
     preserve_aspect_ratio: String.t() | nil,
     children: children(),
-    defs: Vectored.Elements.Defs.t() | nil
+    defs: Vectored.Elements.Defs.t() | nil,
+    private: map()
   }
 
   @spec new() :: t()
@@ -84,6 +85,14 @@ defmodule Vectored.Elements.Svg do
   end
   def append_defs(%__MODULE__{} = svg, element) do
     append_defs(svg, List.wrap(element))
+  end
+
+  def put_private(%__MODULE__{} = svg, key, value) do
+    %{svg | private: Map.put(svg.private, key, value)}
+  end
+
+  def delete_private(%__MODULE__{} = svg, key) do
+    %{svg | private: Map.delete(svg.private, key)}
   end
 
   defimpl Vectored.Renderable do

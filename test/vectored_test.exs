@@ -64,7 +64,7 @@ defmodule VectoredTest do
     assert path_attrs == "M 10,10 L 90,90 V 10 H 50"
   end
 
-  test "cam render desc and title" do
+  test "can render desc and title" do
     assert {:circle, _attrs, children} =
       Circle.new(10)
       |> Circle.with_description("I'm a circle")
@@ -74,5 +74,24 @@ defmodule VectoredTest do
     assert [{:desc, [], _}, {:title, [], _}] =
       children
       |> Enum.sort_by(& elem(&1, 0))
+  end
+
+  describe "private data" do
+    test "empty state, does not get rendered" do
+      svg = Svg.new()
+      assert svg.private == %{}
+      assert Vectored.to_svg(svg) == {:svg, [], []}
+    end
+
+    test "can have privatedata, but doesn't render it" do
+      svg = 
+        Svg.new()
+        |> Svg.with_private(%{a: 1, b: 2})
+        |> Svg.put_private(:c, 3)
+        |> Svg.delete_private(:b)
+  
+      assert %{a: 1, c: 3} = svg.private
+      assert Vectored.to_svg(svg) == {:svg, [], []}
+    end
   end
 end
