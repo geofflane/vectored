@@ -11,12 +11,12 @@ defmodule Vectored.Elements.Path do
 
   @type paths :: list(String.t())
   @type t :: %__MODULE__{
-    d: paths(),
-    path_length: String.t() | number() | nil,
-    marker_start: String.t() | nil,
-    marker_mid: String.t() | nil,
-    marker_end: String.t() | nil,
-  }
+          d: paths(),
+          path_length: String.t() | number() | nil,
+          marker_start: String.t() | nil,
+          marker_mid: String.t() | nil,
+          marker_end: String.t() | nil
+        }
 
   @spec new(paths()) :: t()
   def new(path \\ []) do
@@ -66,7 +66,17 @@ defmodule Vectored.Elements.Path do
     append_path(path, "#{op} #{x1},#{y1} #{x},#{y}")
   end
 
-  def eliptical_arc_curve(%__MODULE__{} = path, rx, ry, angle, large_arc_flag, sweep_flag, x, y, rel \\ false) do
+  def eliptical_arc_curve(
+        %__MODULE__{} = path,
+        rx,
+        ry,
+        angle,
+        large_arc_flag,
+        sweep_flag,
+        x,
+        y,
+        rel \\ false
+      ) do
     op = if rel, do: "a", else: "A"
     append_path(path, "#{op} #{rx} #{ry} #{angle} #{large_arc_flag} #{sweep_flag} #{x},#{y}")
   end
@@ -79,8 +89,9 @@ defmodule Vectored.Elements.Path do
     def to_svg(%Vectored.Elements.Path{} = element) do
       attrs = Vectored.Elements.Path.attributes(element)
       children = Vectored.Elements.Element.render_common_children(element)
+
       {_, attrs} =
-        Keyword.get_and_update(attrs, :d, fn 
+        Keyword.get_and_update(attrs, :d, fn
           d when is_list(d) -> {d, Enum.join(d, " ")}
           d -> {d, d}
         end)

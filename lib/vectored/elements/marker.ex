@@ -26,20 +26,36 @@ defmodule Vectored.Elements.Marker do
   """
 
   use Vectored.Elements.Element,
-    attributes: [marker_height: 3, marker_units: nil, marker_width: 3, orient: 0, preserve_aspect_ration: nil, ref_x: 0, ref_y: 0, view_box: nil, children: []],
-    attribute_overrides: [marker_height: :markerHeight, marker_width: :markerWidth, marker_units: :markerUnits, ref_x: :refX, ref_y: :refY]
+    attributes: [
+      marker_height: 3,
+      marker_units: nil,
+      marker_width: 3,
+      orient: 0,
+      preserve_aspect_ration: nil,
+      ref_x: 0,
+      ref_y: 0,
+      view_box: nil,
+      children: []
+    ],
+    attribute_overrides: [
+      marker_height: :markerHeight,
+      marker_width: :markerWidth,
+      marker_units: :markerUnits,
+      ref_x: :refX,
+      ref_y: :refY
+    ]
 
   @type t :: %__MODULE__{
-    marker_height: number(),
-    marker_units: number() | nil,
-    marker_width: number(),
-    orient: String.t() | number(),
-    preserve_aspect_ration: String.t() | nil,
-    ref_x: number() | String.t(),
-    ref_y: number() | String.t(),
-    view_box: String.t() | nil,
-    children: list(Vectored.Renderable.t()),
-  }
+          marker_height: number(),
+          marker_units: number() | nil,
+          marker_width: number(),
+          orient: String.t() | number(),
+          preserve_aspect_ration: String.t() | nil,
+          ref_x: number() | String.t(),
+          ref_y: number() | String.t(),
+          view_box: String.t() | nil,
+          children: list(Vectored.Renderable.t())
+        }
 
   @spec new() :: t()
   def new() do
@@ -65,8 +81,11 @@ defmodule Vectored.Elements.Marker do
   defimpl Vectored.Renderable do
     def to_svg(%Vectored.Elements.Marker{children: children} = element) do
       attrs = Vectored.Elements.Marker.attributes(element)
-      child_elems = Enum.map(children, &Vectored.Renderable.to_svg/1) ++
-        Vectored.Elements.Element.render_common_children(element)
+
+      child_elems =
+        Enum.map(children, &Vectored.Renderable.to_svg/1) ++
+          Vectored.Elements.Element.render_common_children(element)
+
       {:marker, attrs, child_elems}
     end
   end

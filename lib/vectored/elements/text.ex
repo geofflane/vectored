@@ -23,25 +23,29 @@ defmodule Vectored.Elements.Text do
   """
 
   use Vectored.Elements.Element,
-    attributes: [x: 0, y: 0, dx: nil, dy: nil, rotate: nil,
+    attributes: [
+      x: 0,
+      y: 0,
+      dx: nil,
+      dy: nil,
+      rotate: nil,
       length_adjust: nil,
       text_length: nil,
       content: nil,
-      font_size: nil,
-
+      font_size: nil
     ],
     attribute_overrides: [length_adjust: :lengthAdjust, text_length: :textLength]
 
   @type t :: %__MODULE__{
-    x: String.t() | number(),
-    y: String.t() | number(),
-    dx: String.t() | number() | nil,
-    dy: String.t() | number() | nil,
-    rotate: String.t() | nil,
-    length_adjust: String.t() | nil,
-    text_length: String.t() | number() | nil,
-    content: String.t()
-  }
+          x: String.t() | number(),
+          y: String.t() | number(),
+          dx: String.t() | number() | nil,
+          dy: String.t() | number() | nil,
+          rotate: String.t() | nil,
+          length_adjust: String.t() | nil,
+          text_length: String.t() | number() | nil,
+          content: String.t()
+        }
 
   @spec new(String.t() | number(), String.t() | number(), String.t()) :: t()
   def new(x, y, content) do
@@ -56,14 +60,14 @@ defmodule Vectored.Elements.Text do
   @doc """
   Set the x and y properties of the Circle to set its location
   """
-  @spec at_location(t(), String.t() | number(),  String.t() |number()) :: t()
+  @spec at_location(t(), String.t() | number(), String.t() | number()) :: t()
   def at_location(text, x, y) do
     %{text | x: x, y: y}
   end
 
   defimpl Vectored.Renderable do
     require Record
-    Record.defrecord :xmlText, Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl")
+    Record.defrecord(:xmlText, Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl"))
 
     def to_svg(%Vectored.Elements.Text{content: content} = element) do
       attrs = Vectored.Elements.Text.attributes(element)

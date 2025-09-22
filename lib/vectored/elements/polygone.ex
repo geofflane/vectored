@@ -11,9 +11,9 @@ defmodule Vectored.Elements.Polygon do
 
   @type point :: {number(), number()}
   @type t :: %__MODULE__{
-    points: list(point()),
-    path_length: String.t() | number() | nil,
-  }
+          points: list(point()),
+          path_length: String.t() | number() | nil
+        }
 
   @spec new(list(point())) :: t()
   @spec new() :: t()
@@ -32,12 +32,13 @@ defmodule Vectored.Elements.Polygon do
       children = Vectored.Elements.Element.render_common_children(element)
 
       {_, attrs} =
-        Keyword.get_and_update(attrs, :points, fn 
-          points-> 
+        Keyword.get_and_update(attrs, :points, fn
+          points ->
             points_str =
               points
               |> Enum.map(fn {x, y} -> "#{x},#{y}" end)
               |> Enum.join(" ")
+
             {points, points_str}
         end)
 

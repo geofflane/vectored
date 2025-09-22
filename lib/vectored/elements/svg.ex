@@ -21,20 +21,30 @@ defmodule Vectored.Elements.Svg do
   alias Vectored.Elements.Defs
 
   use Vectored.Elements.Element,
-    attributes: [height: nil, width: nil, preserve_aspect_ratio: nil, view_box: nil, x: nil, y: nil, defs: nil, children: [], private: %{}]
+    attributes: [
+      height: nil,
+      width: nil,
+      preserve_aspect_ratio: nil,
+      view_box: nil,
+      x: nil,
+      y: nil,
+      defs: nil,
+      children: [],
+      private: %{}
+    ]
 
   @type children :: list(Vectored.Renderable.t())
   @type t :: %__MODULE__{
-    x: String.t() | number() | nil,
-    y: String.t() | number() | nil,
-    width: String.t() | number() | nil,
-    height: String.t() | number() | nil,
-    view_box: String.t() | nil,
-    preserve_aspect_ratio: String.t() | nil,
-    children: children(),
-    defs: Vectored.Elements.Defs.t() | nil,
-    private: map()
-  }
+          x: String.t() | number() | nil,
+          y: String.t() | number() | nil,
+          width: String.t() | number() | nil,
+          height: String.t() | number() | nil,
+          view_box: String.t() | nil,
+          preserve_aspect_ratio: String.t() | nil,
+          children: children(),
+          defs: Vectored.Elements.Defs.t() | nil,
+          private: map()
+        }
 
   @spec new() :: t()
   def new() do
@@ -50,7 +60,7 @@ defmodule Vectored.Elements.Svg do
   @doc """
   Set the x and y properties of the Svg to set its location
   """
-  @spec at_location(t(), String.t() | number(),  String.t() | number()) :: t()
+  @spec at_location(t(), String.t() | number(), String.t() | number()) :: t()
   def at_location(rectangle, x, y) do
     %{rectangle | x: x, y: y}
   end
@@ -65,9 +75,11 @@ defmodule Vectored.Elements.Svg do
   def append(%__MODULE__{children: children} = svg, elements) when is_list(elements) do
     %{svg | children: children ++ elements}
   end
+
   def append(%__MODULE__{} = svg, func) when is_function(func) do
     append(svg, func.())
   end
+
   def append(%__MODULE__{} = svg, element) do
     append(svg, List.wrap(element))
   end
@@ -83,6 +95,7 @@ defmodule Vectored.Elements.Svg do
 
     %{svg | defs: new_defs}
   end
+
   def append_defs(%__MODULE__{} = svg, element) do
     append_defs(svg, List.wrap(element))
   end

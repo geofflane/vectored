@@ -5,12 +5,11 @@ defprotocol Vectored.Renderable do
   """
 
   @type simple_element ::
-    {atom(), [{atom(), iolist() | atom() | integer()}], [simple_element()]} |
-    {atom(), [simple_element()]} |
-        atom() |
-          iolist() |
-            :xmerl.element()
-
+          {atom(), [{atom(), iolist() | atom() | integer()}], [simple_element()]}
+          | {atom(), [simple_element()]}
+          | atom()
+          | iolist()
+          | :xmerl.element()
 
   @doc """
   Render an element as xmerl XML structures.

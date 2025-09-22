@@ -11,12 +11,12 @@ defmodule Vectored.Elements.Polyline do
 
   @type point :: {number(), number()}
   @type t :: %__MODULE__{
-    points: list(point()),
-    path_length: String.t() | number() | nil,
-    marker_start: String.t() | nil,
-    marker_mid: String.t() | nil,
-    marker_end: String.t() | nil
-  }
+          points: list(point()),
+          path_length: String.t() | number() | nil,
+          marker_start: String.t() | nil,
+          marker_mid: String.t() | nil,
+          marker_end: String.t() | nil
+        }
 
   @spec new(list(point())) :: t()
   @spec new() :: t()
@@ -35,12 +35,13 @@ defmodule Vectored.Elements.Polyline do
       children = Vectored.Elements.Element.render_common_children(element)
 
       {_, attrs} =
-        Keyword.get_and_update(attrs, :points, fn 
-          points-> 
+        Keyword.get_and_update(attrs, :points, fn
+          points ->
             points_str =
               points
               |> Enum.map(fn {x, y} -> "#{x},#{y}" end)
               |> Enum.join(" ")
+
             {points, points_str}
         end)
 

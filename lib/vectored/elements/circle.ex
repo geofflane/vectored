@@ -17,11 +17,11 @@ defmodule Vectored.Elements.Circle do
     attributes: [cx: 0, cy: 0, r: 0, path_length: nil]
 
   @type t :: %__MODULE__{
-    cx: String.t() | number() | nil,
-    cy: String.t() | number() | nil,
-    r: String.t() | number(),
-    path_length: number() | nil,
-  }
+          cx: String.t() | number() | nil,
+          cy: String.t() | number() | nil,
+          r: String.t() | number(),
+          path_length: number() | nil
+        }
 
   @doc """
   Create a new instance

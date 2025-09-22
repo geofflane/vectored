@@ -25,6 +25,7 @@ defmodule Vectored do
       case to_svg(element) do
         {:svg, attrs, elems} ->
           {:svg, attrs ++ [xmlns: "http://www.w3.org/2000/svg"], elems}
+
         element ->
           element
       end

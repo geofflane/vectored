@@ -61,23 +61,25 @@ defmodule Vectored.Elements.Element do
 
   @common_children [
     desc: nil,
-    title: nil,
+    title: nil
   ]
 
   @common_attributes [
     alignment_baseline: nil,
     baseline_shift: nil,
+    dataset: nil,
     class: nil,
     clip_path: nil,
     clip_rule: nil,
     color: nil,
-    color_interpolation: nil, 
+    color_interpolation: nil,
     color_interpolation_filters: nil,
     cursor: nil,
     direction: nil,
     display: nil,
     dominant_baseline: nil,
-    fill: nil,         # "white",
+    # "white",
+    fill: nil,
     fill_opacity: nil,
     fill_rule: nil,
     filter: nil,
@@ -132,9 +134,9 @@ defmodule Vectored.Elements.Element do
   ]
 
   @type attributes :: %{
-    optional(:attributes) => Keyword.t(),
-    optional(:attribute_overrides) => Keyword.t(),
-  }
+          optional(:attributes) => Keyword.t(),
+          optional(:attribute_overrides) => Keyword.t()
+        }
 
   @doc """
   Defome an element that includes the default SVG attributes common to all SVG
@@ -171,15 +173,17 @@ defmodule Vectored.Elements.Element do
   """
   defmacro __using__(opts) do
     attributes = Keyword.get(opts, :attributes, [])
-    attribute_overrides = Keyword.merge(@default_overrides, Keyword.get(opts, :attribute_overrides, []))
+
+    attribute_overrides =
+      Keyword.merge(@default_overrides, Keyword.get(opts, :attribute_overrides, []))
 
     # Construct setters for common attribute values
     common_functions =
-      for {attr, _}<- @common_attributes ++ attributes, uniq: true  do
+      for {attr, _} <- @common_attributes ++ attributes, uniq: true do
         quote do
           @doc unquote("""
-          Simple setter to put the value `#{Keyword.get(attribute_overrides, attr, attr)}` onto the element
-          """)
+               Simple setter to put the value `#{Keyword.get(attribute_overrides, attr, attr)}` onto the element
+               """)
           @spec unquote(:"with_#{attr}")(t(), term()) :: t()
           def unquote(:"with_#{attr}")(elem, value) do
             %{elem | unquote(attr) => value}
@@ -226,7 +230,7 @@ defmodule Vectored.Elements.Element do
       def with_style(elem, styles) when is_list(styles) do
         style_str =
           styles
-          |> Enum.map(fn {k, v} -> 
+          |> Enum.map(fn {k, v} ->
             "#{k}: #{v}"
           end)
           |> Enum.join("; ")
