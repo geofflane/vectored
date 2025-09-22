@@ -194,10 +194,11 @@ defmodule Vectored.Elements.Element do
     quote do
       import Vectored.Elements.Element
 
-      defelement unquote(attributes)
+      defelement(unquote(attributes))
 
       def attrs() do
-        (__ENV__.module.__struct__() |> Map.keys()) -- [:__struct__, :content, :children, :desc, :title, :private]
+        (__ENV__.module.__struct__() |> Map.keys()) --
+          [:__struct__, :content, :children, :desc, :title, :private, :dataset]
       end
 
       def attributes(element) do
@@ -238,20 +239,100 @@ defmodule Vectored.Elements.Element do
         %{elem | style: style_str}
       end
 
+      @doc """
+      Set a dataset attribute. Mimics the DOM Element.dataset API.
+      The key will be converted from camelCase to kebab-case for the data-* attribute.
+      """
+      def put_dataset(elem, key, value) when is_atom(key) do
+        put_dataset(elem, Atom.to_string(key), value)
+      end
+
+      def put_dataset(elem, key, value) when is_binary(key) do
+        current_dataset = elem.dataset || %{}
+        %{elem | dataset: Map.put(current_dataset, key, value)}
+      end
+
+      @doc """
+      Remove a dataset attribute
+      """
+      def delete_dataset(elem, key) when is_atom(key) do
+        delete_dataset(elem, Atom.to_string(key))
+      end
+
+      def delete_dataset(elem, key) when is_binary(key) do
+        current_dataset = elem.dataset || %{}
+        %{elem | dataset: Map.delete(current_dataset, key)}
+      end
+
+      @doc """
+      Set the entire dataset map at once
+      """
+      def with_dataset(elem, dataset) when is_map(dataset) do
+        %{elem | dataset: dataset}
+      end
+
       unquote_splicing(common_functions)
     end
   end
 
   def attributes(element, attrs) do
-    attrs
-    |> Enum.map(fn key ->
-      v = Map.get(element, key)
-      if v do
-        # to_string because xmerl only deals with iolist, atom and integers
-        {element.__struct__.rendered_key(key), maybe_cast(v)}
+    regular_attrs =
+      attrs
+      |> Enum.map(fn key ->
+        v = Map.get(element, key)
+
+        if v do
+          # to_string because xmerl only deals with iolist, atom and integers
+          {element.__struct__.rendered_key(key), maybe_cast(v)}
+        end
+      end)
+      |> Enum.reject(&is_nil/1)
+
+    # Add dataset attributes as data-* attributes
+    dataset_attrs =
+      case Map.get(element, :dataset) do
+        nil ->
+          []
+
+        dataset when is_map(dataset) and map_size(dataset) == 0 ->
+          []
+
+        dataset when is_map(dataset) ->
+          dataset
+          |> Enum.map(fn {key, value} ->
+            # Convert camelCase key to data-kebab-case attribute name
+            attr_name = camel_to_data_attr(key)
+            {String.to_atom(attr_name), maybe_cast(value)}
+          end)
       end
-    end)
-    |> Enum.reject(&is_nil/1)
+
+    regular_attrs ++ dataset_attrs
+  end
+
+  @doc false
+  def camel_to_data_attr(key) when is_atom(key) do
+    camel_to_data_attr(Atom.to_string(key))
+  end
+
+  def camel_to_data_attr(key) when is_binary(key) do
+    kebab_key =
+      key
+      |> String.graphemes()
+      |> Enum.with_index()
+      |> Enum.map_join(fn
+        {grapheme, 0} ->
+          # First character - just lowercase it, don't add hyphen
+          String.downcase(grapheme)
+
+        {grapheme, _index} ->
+          if grapheme =~ ~r/[A-Z0-9]/ do
+            "-" <> String.downcase(grapheme)
+          else
+            grapheme
+          end
+      end)
+
+    "data-" <> kebab_key
   end
 
   def maybe_cast(v) when is_float(v), do: to_string(v)
