@@ -1,32 +1,10 @@
 defmodule Vectored.Elements.Use do
   @moduledoc """
-  Pull a definition from `defs` and render it at the given location.
-
-  ## Details
-
-  href
-  The URL to an element/fragment that needs to be duplicated. See Usage notes for details on common pitfalls.
-  Value type: <URL> ; Default value: none; Animatable: yes
-
-  x
-  The x coordinate of an additional final offset transformation applied to the <use> element.
-  Value type: <coordinate> ; Default value: 0; Animatable: yes
-
-  y
-  The y coordinate of an additional final offset transformation applied to the <use> element.
-  Value type: <coordinate> ; Default value: 0; Animatable: yes
-
-  width
-  The width of the use element.
-  Value type: <length> ; Default value: 0; Animatable: yes
-
-  height
-  The height of the use element.
-  Value type: <length> ; Default value: 0; Animatable: yes
+  The <use> element takes nodes from within the SVG document, and duplicates them somewhere else.
   """
 
   use Vectored.Elements.Element,
-    attributes: [href: nil, x: 0, y: 0, width: nil, height: nil]
+    attributes: []
 
   @type t :: %__MODULE__{
           href: String.t(),

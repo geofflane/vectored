@@ -1,4 +1,10 @@
 defmodule Vectored.Elements.Group do
+  @moduledoc """
+  The <g> SVG element is a container used to group other SVG elements.
+
+  Transformations applied to the <g> element are performed on its child elements, and its attributes are inherited by its children.
+  """
+
   use Vectored.Elements.Element,
     attributes: [children: []]
 

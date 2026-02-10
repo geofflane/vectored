@@ -1,5 +1,7 @@
 defmodule Vectored.Elements.Text do
   @moduledoc """
+  The SVG <text> element draws a graphics element consisting of text. It's possible to apply a gradient, pattern, clipping path, mask, or filter to <text>, just like any other SVG graphics element.
+
   x
   The x coordinate of the starting point of the text baseline. Value type: <length>|<percentage> ; Default value: 0; Animatable: yes
 
@@ -32,7 +34,8 @@ defmodule Vectored.Elements.Text do
       length_adjust: nil,
       text_length: nil,
       content: nil,
-      font_size: nil
+      font_size: nil,
+      children: []
     ],
     attribute_overrides: [length_adjust: :lengthAdjust, text_length: :textLength]
 
@@ -44,7 +47,8 @@ defmodule Vectored.Elements.Text do
           rotate: String.t() | nil,
           length_adjust: String.t() | nil,
           text_length: String.t() | number() | nil,
-          content: String.t()
+          content: String.t(),
+          children: list(Vectored.Renderable.t())
         }
 
   @spec new(String.t() | number(), String.t() | number(), String.t()) :: t()
@@ -65,15 +69,25 @@ defmodule Vectored.Elements.Text do
     %{text | x: x, y: y}
   end
 
+  @doc """
+  Append a child element (like a tspan)
+  """
+  def append(%__MODULE__{children: children} = text, child) do
+    %{text | children: children ++ [child]}
+  end
+
   defimpl Vectored.Renderable do
     require Record
     Record.defrecord(:xmlText, Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl"))
 
-    def to_svg(%Vectored.Elements.Text{content: content} = element) do
+    def to_svg(%Vectored.Elements.Text{content: content, children: text_children} = element) do
       attrs = Vectored.Elements.Text.attributes(element)
-      text = xmlText(value: content)
-      children = Vectored.Elements.Element.render_common_children(element)
-      {:text, attrs, [text | children]}
+
+      text_node = if content, do: [xmlText(value: content)], else: []
+      rendered_children = Enum.map(text_children, &Vectored.Renderable.to_svg/1)
+      common_children = Vectored.Elements.Element.render_common_children(element)
+
+      {:text, attrs, text_node ++ rendered_children ++ common_children}
     end
   end
 end

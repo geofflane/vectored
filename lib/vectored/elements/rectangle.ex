@@ -1,5 +1,7 @@
 defmodule Vectored.Elements.Rectangle do
   @moduledoc """
+  The <rect> element is an SVG basic shape used to create rectangles, based on the position of a corner and their width and height. It may also be used to create rectangles with rounded corners.
+
   x
   The x coordinate of the rect. Value type: <length>|<percentage> ; Default value: 0; Animatable: yes
 
@@ -23,7 +25,7 @@ defmodule Vectored.Elements.Rectangle do
   """
 
   use Vectored.Elements.Element,
-    attributes: [x: 0, y: 0, width: nil, height: nil, rx: nil, ry: nil, path_length: nil]
+    attributes: [rx: nil, ry: nil, path_length: nil]
 
   @type t :: %__MODULE__{
           x: String.t() | number(),

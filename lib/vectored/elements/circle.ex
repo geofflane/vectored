@@ -1,5 +1,7 @@
 defmodule Vectored.Elements.Circle do
   @moduledoc """
+  The <circle> SVG element is an SVG basic shape, used to draw circles based on a center point and a radius.
+
   cx
   The x-axis coordinate of the center of the circle. Value type: <length>|<percentage> ; Default value: 0; Animatable: yes
 

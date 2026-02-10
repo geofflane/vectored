@@ -1,5 +1,7 @@
 defmodule Vectored.Elements.Path do
   @moduledoc """
+  The <path> SVG element is the generic element to define a shape. All the basic shapes can be created with a path element.
+
   d
   This attribute defines the shape of the path. Value type: <string> ; Default value: ''; Animatable: yes
 

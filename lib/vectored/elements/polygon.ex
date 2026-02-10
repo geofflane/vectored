@@ -1,5 +1,7 @@
 defmodule Vectored.Elements.Polygon do
   @moduledoc """
+  The <polygon> element defines a closed shape consisting of a set of connected straight line segments. The last point is connected to the first point.
+
   points
   This attribute defines the list of points (pairs of x,y absolute coordinates) required to draw the polyline Value type: <number>+ ; Default value: ""; Animatable: yes
 

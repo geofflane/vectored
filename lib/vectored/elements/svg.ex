@@ -1,5 +1,7 @@
 defmodule Vectored.Elements.Svg do
   @moduledoc """
+  The <svg> element is a container that defines a new coordinate system and viewport. It is used as the outermost element of SVG documents.
+
   height
   The displayed height of the rectangular viewport. (Not the height of its coordinate system.) Value type: <length>|<percentage> ; Default value: auto; Animatable: yes
 
@@ -22,12 +24,6 @@ defmodule Vectored.Elements.Svg do
 
   use Vectored.Elements.Element,
     attributes: [
-      height: nil,
-      width: nil,
-      preserve_aspect_ratio: nil,
-      view_box: nil,
-      x: nil,
-      y: nil,
       defs: nil,
       children: [],
       private: %{}

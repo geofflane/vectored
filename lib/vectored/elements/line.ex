@@ -1,5 +1,7 @@
 defmodule Vectored.Elements.Line do
   @moduledoc """
+  The <line> element is an SVG basic shape used to create a line connecting two points.
+
   x1
   Defines the x-axis coordinate of the line starting point. Value type: <length>|<percentage>|<number> ; Default value: 0; Animatable: yes
 

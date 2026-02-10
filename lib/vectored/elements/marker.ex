@@ -1,5 +1,7 @@
 defmodule Vectored.Elements.Marker do
   @moduledoc """
+  The <marker> element defines the graphics that is to be used for drawing marks on a <path>, <line>, <polyline> or <polygon> element.
+
   markerHeight
   This attribute defines the height of the marker viewport. Value type: <length> ; Default value: 3; Animatable: yes
 
@@ -31,7 +33,7 @@ defmodule Vectored.Elements.Marker do
       marker_units: nil,
       marker_width: 3,
       orient: 0,
-      preserve_aspect_ration: nil,
+      preserve_aspect_ratio: nil,
       ref_x: 0,
       ref_y: 0,
       view_box: nil,
@@ -50,7 +52,7 @@ defmodule Vectored.Elements.Marker do
           marker_units: number() | nil,
           marker_width: number(),
           orient: String.t() | number(),
-          preserve_aspect_ration: String.t() | nil,
+          preserve_aspect_ratio: String.t() | nil,
           ref_x: number() | String.t(),
           ref_y: number() | String.t(),
           view_box: String.t() | nil,

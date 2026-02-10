@@ -1,6 +1,6 @@
 defmodule Vectored.Elements.Desc do
   @moduledoc """
-  SVG desc element to describe something
+  The <desc> element provides a longer, more detailed description of its parent element than the <title> element.
   """
 
   # desc doesn't have any attributes and we want to reference it in Element, so

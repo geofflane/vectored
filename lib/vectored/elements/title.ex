@@ -1,6 +1,6 @@
 defmodule Vectored.Elements.Title do
   @moduledoc """
-  SVG title element
+  The <title> element provides a short text-based description for the element it is nested within.
   """
 
   # title doesn't have any attributes and we want to reference it in Element, so
