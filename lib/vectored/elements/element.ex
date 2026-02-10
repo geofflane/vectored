@@ -94,6 +94,8 @@ defmodule Vectored.Elements.Element do
     font_weight: nil,
     glyph_orientation_horizontal: nil,
     glyph_orientation_vertical: nil,
+    height: nil,
+    href: nil,
     id: nil,
     image_rendering: nil,
     letter_spacing: nil,
@@ -129,8 +131,11 @@ defmodule Vectored.Elements.Element do
     vector_effect: nil,
     visibility: nil,
     white_space: nil,
+    width: nil,
     word_spacing: nil,
-    writing_mode: nil
+    writing_mode: nil,
+    x: nil,
+    y: nil
   ]
 
   @type attributes :: %{
