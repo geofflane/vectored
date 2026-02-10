@@ -45,7 +45,7 @@ defmodule Vectored.Elements.Circle do
   end
 
   def with_radius(circle, r) do
-    %{circle | radius: r}
+    %{circle | r: r}
   end
 
   defimpl Vectored.Renderable do
