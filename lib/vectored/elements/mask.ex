@@ -1,6 +1,36 @@
 defmodule Vectored.Elements.Mask do
   @moduledoc """
-  The <mask> SVG element is used for defining an alpha mask for compositing the current object into the background.
+  The `<mask>` element defines an alpha mask for compositing objects into 
+  the background.
+
+  ## Why use a Mask?
+  Masks are different from clipping paths. While a `clipPath` is a hard "cookie
+  cutter" (visible or not), a mask allows for **transparency and gradients**.
+
+    * **Luminance Masking**: By default, SVG masks use the brightness of the 
+      mask's content to determine transparency. White in the mask means the 
+      object is fully visible; black means it is fully hidden; grey means it 
+      is semi-transparent.
+    * **Complex Fading**: Use a `linearGradient` inside a mask to make an 
+      image fade away gradually.
+
+  ## Examples
+
+      # Create a mask that fades from white to black
+      gradient = Vectored.Elements.LinearGradient.new([
+        Vectored.Elements.Stop.new(0, "white"),
+        Vectored.Elements.Stop.new(1, "black")
+      ]) |> Vectored.Elements.LinearGradient.with_id("fade-grad")
+
+      mask = Vectored.Elements.Mask.new([
+        Vectored.Elements.Rectangle.new(0, 0, 100, 100) 
+        |> Vectored.Elements.Rectangle.with_fill("url(#fade-grad)")
+      ]) |> Vectored.Elements.Mask.with_id("my-mask")
+
+      # Apply the mask to a shape
+      Vectored.Elements.Circle.new(50, 50, 40)
+      |> Vectored.Elements.Circle.with_mask("url(#my-mask)")
+
   """
 
   use Vectored.Elements.Element,
@@ -29,7 +59,7 @@ defmodule Vectored.Elements.Mask do
         }
 
   @doc """
-  Create a new mask with children
+  Create a new mask with an optional list of children.
   """
   @spec new(list(Vectored.Renderable.t())) :: t()
   def new(children \\ []) do
@@ -37,7 +67,7 @@ defmodule Vectored.Elements.Mask do
   end
 
   @doc """
-  Append a child element
+  Append a child element to the mask.
   """
   def append(%__MODULE__{children: children} = mask, child) do
     %{mask | children: children ++ List.wrap(child)}

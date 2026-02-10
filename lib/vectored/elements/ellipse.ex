@@ -1,19 +1,20 @@
 defmodule Vectored.Elements.Ellipse do
   @moduledoc """
-  cx
-  The x-axis coordinate of the center of the ellipse. Value type: <length>|<percentage> ; Default value: 0; Animatable: yes
+  The `<ellipse>` element is an SVG basic shape used to draw ellipses.
 
-  cy
-  The y-axis coordinate of the center of the ellipse. Value type: <length>|<percentage> ; Default value: 0; Animatable: yes
+  It is defined by a center point and two radii (horizontal and vertical).
 
-  rx
-  The x-axis radius of the ellipse. Value type: auto|<length>|<percentage> ; Default value: auto; Animatable: yes
+  ## Attributes
 
-  ry
-  The y-axis radius of the ellipse. Value type: auto|<length>|<percentage> ; Default value: auto; Animatable: yes
+    * `cx`, `cy` - The coordinates of the center of the ellipse.
+    * `rx`, `ry` - The horizontal and vertical radii of the ellipse.
+    * `path_length` - The total length of the ellipse's perimeter in user units.
 
-  path_length
-  The total length of the ellipse's perimeter, in user units. Value type: <number> ; Default value: none; Animatable: yes
+  ## Examples
+
+      iex> Vectored.Elements.Ellipse.new(100, 50, 80, 40)
+      ...> |> Vectored.Elements.Ellipse.with_fill("yellow")
+
   """
 
   use Vectored.Elements.Element,
@@ -28,7 +29,9 @@ defmodule Vectored.Elements.Ellipse do
         }
 
   @doc """
-  Create a new instance with rx and ry
+  Create a new ellipse with horizontal and vertical radii.
+
+  The center point defaults to (0,0).
   """
   @spec new(String.t() | number(), String.t() | number()) :: t()
   def new(rx, ry) do
@@ -36,7 +39,14 @@ defmodule Vectored.Elements.Ellipse do
   end
 
   @doc """
-  Create a new instance with cx, cy, rx, and ry
+  Create a new ellipse with center point and radii.
+
+  ## Parameters
+
+    * `cx` - The x-coordinate of the center.
+    * `cy` - The y-coordinate of the center.
+    * `rx` - The horizontal radius.
+    * `ry` - The vertical radius.
   """
   @spec new(
           String.t() | number(),
@@ -49,9 +59,9 @@ defmodule Vectored.Elements.Ellipse do
   end
 
   @doc """
-  Set the cx and cy properties of the Ellipse to set its location
+  Set the center location of the ellipse.
   """
-  @spec at_location(t(), number(), number()) :: t()
+  @spec at_location(t(), String.t() | number(), String.t() | number()) :: t()
   def at_location(ellipse, x, y) do
     %{ellipse | cx: x, cy: y}
   end

@@ -1,6 +1,22 @@
 defmodule Vectored.Elements.Desc do
   @moduledoc """
-  The <desc> element provides a longer, more detailed description of its parent element than the <title> element.
+  The `<desc>` element provides a detailed text description of an element.
+
+  ## Why use Desc?
+  While `<title>` is for short names, `<desc>` is for **complex descriptions**.
+
+    * **Accessibility**: It provides a way to explain complex graphics (like
+      charts or diagrams) to screen reader users.
+    * **Documentation**: It helps keep your SVG source code self-documenting.
+
+  The `Vectored.Elements.Element.with_description/2` helper is the recommended
+  way to add a description to any shape.
+
+  ## Examples
+
+      Vectored.Elements.Group.new([chart_bars])
+      |> Vectored.Elements.Group.with_description("A bar chart showing quarterly revenue growth.")
+
   """
 
   # desc doesn't have any attributes and we want to reference it in Element, so

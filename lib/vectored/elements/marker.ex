@@ -1,30 +1,48 @@
 defmodule Vectored.Elements.Marker do
   @moduledoc """
-  The <marker> element defines the graphics that is to be used for drawing marks on a <path>, <line>, <polyline> or <polygon> element.
+  The `<marker>` element defines graphics (like arrowheads) that can be 
+  attached to the start, middle, or end of a path or line.
 
-  markerHeight
-  This attribute defines the height of the marker viewport. Value type: <length> ; Default value: 3; Animatable: yes
+  ## Why use a Marker?
+  Instead of drawing an arrowhead at the end of every line manually, you 
+  define a marker once and attach it using the `marker_end` attribute.
 
-  markerUnits
-  This attribute defines the coordinate system for the attributes markerWidth, markerHeight and the contents of the <marker>. Value type: userSpaceOnUse|strokeWidth ; Default value: strokeWidth; Animatable: yes
+    * **Automatic Alignment**: Use `orient="auto"` and the arrowhead will 
+      automatically rotate to point in the direction of the line.
+    * **Reusable Components**: Change the marker's color or shape in one 
+      place, and every arrow in your drawing updates.
+    * **Dynamic Lines**: If you move the endpoint of a line, the attached 
+      marker moves and rotates with it perfectly.
 
-  markerWidth
-  This attribute defines the width of the marker viewport. Value type: <length> ; Default value: 3; Animatable: yes
+  ## Attributes
 
-  orient
-  This attribute defines the orientation of the marker relative to the shape it is attached to. Value type: auto|auto-start-reverse|<angle> ; Default value: 0; Animatable: yes
+    * `marker_width`, `marker_height` - The dimensions of the marker's viewport.
+    * `ref_x`, `ref_y` - The "anchor point" of the marker. For an arrowhead, 
+      this is usually the tip.
+    * `orient` - Set to `"auto"` to align with the line, or a fixed angle.
 
-  preserveAspectRatio
-  This attribute defines how the svg fragment must be deformed if it is embedded in a container with a different aspect ratio. Value type: (none| xMinYMin| xMidYMin| xMaxYMin| xMinYMid| xMidYMid| xMaxYMid| xMinYMax| xMidYMax| xMaxYMax) (meet|slice)? ; Default value: xMidYMid meet; Animatable: yes
+  ## Examples
 
-  refX
-  This attribute defines the x coordinate for the reference point of the marker. Value type: left|center|right|<coordinate> ; Default value: 0; Animatable: yes
+      # Define a triangular arrowhead
+      arrow = Vectored.Elements.Path.new() 
+      |> Vectored.Elements.Path.move_to(0, 0)
+      |> Vectored.Elements.Path.line_to(10, 5)
+      |> Vectored.Elements.Path.line_to(0, 10)
+      |> Vectored.Elements.Path.close_path()
 
-  refY
-  This attribute defines the y coordinate for the reference point of the marker. Value type: top|center|bottom|<coordinate> ; Default value: 0; Animatable: yes
+      marker = Vectored.Elements.Marker.new()
+      |> Vectored.Elements.Marker.with_shape(arrow)
+      |> Vectored.Elements.Marker.size(10, 10)
+      |> Vectored.Elements.Marker.ref(10, 5) # Point is at the tip
+      |> Vectored.Elements.Marker.orient("auto")
+      |> Vectored.Elements.Marker.with_id("arrowhead")
 
-  viewBox
-  This attribute defines the bound of the SVG viewport for the current SVG fragment. Value type: <list-of-numbers> ; Default value: none; Animatable: yes
+      # Use it on a line
+      Vectored.Elements.Line.new()
+      |> Vectored.Elements.Line.from(0, 0)
+      |> Vectored.Elements.Line.to(100, 100)
+      |> Vectored.Elements.Line.with_marker_end("url(#arrowhead)")
+
   """
 
   use Vectored.Elements.Element,
@@ -59,23 +77,44 @@ defmodule Vectored.Elements.Marker do
           children: list(Vectored.Renderable.t())
         }
 
+  @doc """
+  Create a new marker definition.
+  """
   @spec new() :: t()
   def new() do
     %__MODULE__{}
   end
 
+  @doc """
+  Set the size of the marker viewport.
+  """
+  @spec size(t(), number(), number()) :: t()
   def size(marker, width, height) do
     %{marker | marker_width: width, marker_height: height}
   end
 
+  @doc """
+  Set the reference point (anchor point) of the marker.
+  """
+  @spec ref(t(), number() | String.t(), number() | String.t()) :: t()
   def ref(marker, x, y) do
     %{marker | ref_x: x, ref_y: y}
   end
 
+  @doc """
+  Set the orientation of the marker. 
+
+  Use `"auto"` to align with the slope of the parent line.
+  """
+  @spec orient(t(), String.t() | number()) :: t()
   def orient(marker, orient) do
     %{marker | orient: orient}
   end
 
+  @doc """
+  Set the graphic shape to be used as the marker.
+  """
+  @spec with_shape(t(), Vectored.Renderable.t() | list(Vectored.Renderable.t())) :: t()
   def with_shape(marker, shape) do
     %{marker | children: List.wrap(shape)}
   end

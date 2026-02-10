@@ -1,7 +1,26 @@
 defmodule Vectored.Elements.Tspan do
   @moduledoc """
-  The <tspan> SVG element defines a subtext within a <text> element or another <tspan> element.
-  It allows for separate styling and positioning of that subtext.
+  The `<tspan>` element defines a subtext within a `<text>` element.
+
+  ## Why use Tspan?
+  SVG text doesn't support automatic line breaks or multiple styles within a 
+  single string. `<tspan>` is the solution for:
+
+    * **Mixed Styling**: Making one word **bold** or <span style="color:red">red</span>
+      within a sentence.
+    * **Manual Positioning**: Shifting a specific part of the text using `dx` or `dy`.
+    * **Super/Subscripts**: Adjusting the `baseline_shift` of a few characters.
+
+  ## Examples
+
+      # Styling part of a sentence
+      Vectored.Elements.Text.new(10, 10, "Price: ")
+      |> Vectored.Elements.Text.append(
+           Vectored.Elements.Tspan.new("$10.00") 
+           |> Vectored.Elements.Tspan.with_font_weight("bold")
+           |> Vectored.Elements.Tspan.with_fill("green")
+         )
+
   """
 
   use Vectored.Elements.Element,
@@ -29,7 +48,10 @@ defmodule Vectored.Elements.Tspan do
         }
 
   @doc """
-  Create a new tspan with content
+  Create a new `<tspan>` with content.
+
+  Position and styling will inherit from the parent `<text>` element unless
+  overridden on this tspan.
   """
   @spec new(String.t()) :: t()
   def new(content) do

@@ -1,12 +1,22 @@
 defmodule Vectored.Elements.Polyline do
   @moduledoc """
-  The <polyline> SVG element is an SVG basic shape that creates straight lines connecting several points. Typically a polyline is used to create open shapes as the last point doesn't have to be connected to the first point.
+  The `<polyline>` element is an SVG basic shape that creates straight lines
+  connecting several points.
 
-  points
-  This attribute defines the list of points (pairs of x,y absolute coordinates) required to draw the polyline Value type: <number>+ ; Default value: ""; Animatable: yes
+  Unlike `<polygon>`, a `<polyline>` is typically an open shape (the last point
+  is not automatically connected to the first).
 
-  path_length
-  This attribute lets specify the total length for the path, in user units. Value type: <number> ; Default value: none; Animatable: yes
+  ## Attributes
+
+    * `points` - A list of `{x, y}` coordinates.
+    * `path_length` - The total length of the polyline in user units.
+
+  ## Examples
+
+      iex> Vectored.Elements.Polyline.new([{0,0}, {20,20}, {40,0}, {60,20}])
+      ...> |> Vectored.Elements.Polyline.with_fill("none")
+      ...> |> Vectored.Elements.Polyline.with_stroke("blue")
+
   """
   use Vectored.Elements.Element,
     attributes: [points: [], path_length: nil]
@@ -20,12 +30,18 @@ defmodule Vectored.Elements.Polyline do
           marker_end: String.t() | nil
         }
 
+  @doc """
+  Create a new polyline with an optional list of points.
+  """
   @spec new(list(point())) :: t()
   @spec new() :: t()
   def new(points \\ []) do
     %__MODULE__{points: points |> List.wrap()}
   end
 
+  @doc """
+  Append a point to the polyline.
+  """
   @spec append_points(t(), point()) :: t()
   def append_points(%__MODULE__{points: points} = path, point) do
     %{path | points: List.wrap(points) ++ [point]}

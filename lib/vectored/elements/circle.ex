@@ -1,18 +1,29 @@
 defmodule Vectored.Elements.Circle do
   @moduledoc """
-  The <circle> SVG element is an SVG basic shape, used to draw circles based on a center point and a radius.
+  The `<circle>` element is an SVG basic shape used to draw circles.
 
-  cx
-  The x-axis coordinate of the center of the circle. Value type: <length>|<percentage> ; Default value: 0; Animatable: yes
+  A circle is defined by its center point (`cx`, `cy`) and its radius (`r`).
 
-  cy
-  The y-axis coordinate of the center of the circle. Value type: <length>|<percentage> ; Default value: 0; Animatable: yes
+  ## Attributes
 
-  r
-  The radius of the circle. A value lower or equal to zero disables rendering of the circle. Value type: <length>|<percentage> ; Default value: 0; Animatable: yes
+    * `cx`, `cy` - The center of the circle. If omitted, the circle's center
+      is at the top-left (0,0) of the current coordinate system.
+    * `r` - The radius. This determines the size. If the SVG has a `view_box`,
+      this value is relative to that coordinate system.
+    * `path_length` - An optional attribute to "recalibrate" the length of
+      the circle's perimeter, useful for dashed-line animations.
 
-  path_length
-  The total length for the circle's circumference, in user units. Value type: <number> ; Default value: none; Animatable: yes
+  ## Why use a Circle?
+  While you could draw a circle using a `<path>`, the `<circle>` element is
+  much easier to read, write, and manipulate programmatically when you just
+  need a simple round shape.
+
+  ## Examples
+
+      # Draws a red circle with a 40-unit radius
+      Vectored.Elements.Circle.new(40)
+      |> Vectored.Elements.Circle.with_fill("red")
+
   """
 
   use Vectored.Elements.Element,
@@ -26,26 +37,44 @@ defmodule Vectored.Elements.Circle do
         }
 
   @doc """
-  Create a new instance
+  Create a new circle with a radius.
+
+  The center point defaults to (0,0). Use this when you plan to position
+  the circle later using `at_location/3` or by wrapping it in a `<g>` with
+  a transform.
   """
   @spec new(String.t() | number()) :: t()
   def new(r) do
     %__MODULE__{r: r}
   end
 
+  @doc """
+  Create a new circle with a center point and radius.
+
+  This is the most common way to create a circle when you already know
+  where it should sit in your coordinate system.
+  """
   @spec new(String.t() | number(), String.t() | number(), String.t() | number()) :: t()
   def new(x, y, r) do
     %__MODULE__{cx: x, cy: y, r: r}
   end
 
   @doc """
-  Set the x and y properties of the Circle to set its location
+  Set the center location of the circle.
+
+  Useful for moving a circle dynamically based on calculation or data.
   """
   @spec at_location(t(), number(), number()) :: t()
   def at_location(circle, x, y) do
     %{circle | cx: x, cy: y}
   end
 
+  @doc """
+  Set the radius of the circle.
+
+  Values are in user units. If your SVG `view_box` is `0 0 100 100`,
+  a radius of `50` will make the circle touch the edges of the box.
+  """
   def with_radius(circle, r) do
     %{circle | r: r}
   end

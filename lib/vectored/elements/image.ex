@@ -1,7 +1,20 @@
 defmodule Vectored.Elements.Image do
   @moduledoc """
-  The <image> SVG element includes images inside SVG documents.
-  It can display raster image files or other SVG files.
+  The `<image>` element allows including external images (raster or SVG) inside
+  an SVG document.
+
+  ## Attributes
+
+    * `x`, `y` - The coordinates of the top-left corner of the image.
+    * `width`, `height` - The dimensions of the image.
+    * `href` - The URL or path to the image file.
+
+  ## Examples
+
+      iex> Vectored.Elements.Image.new("https://example.com/logo.png")
+      ...> |> Vectored.Elements.Image.at_location(10, 10)
+      ...> |> Vectored.Elements.Image.with_size(100, 100)
+
   """
 
   use Vectored.Elements.Element,
@@ -16,7 +29,7 @@ defmodule Vectored.Elements.Image do
         }
 
   @doc """
-  Create a new image with href
+  Create a new image with the specified href.
   """
   @spec new(String.t()) :: t()
   def new(href) do
@@ -24,7 +37,7 @@ defmodule Vectored.Elements.Image do
   end
 
   @doc """
-  Create a new image with coordinates, size and href
+  Create a new image with position, dimensions, and href.
   """
   @spec new(number(), number(), number(), number(), String.t()) :: t()
   def new(x, y, width, height, href) do
@@ -32,7 +45,7 @@ defmodule Vectored.Elements.Image do
   end
 
   @doc """
-  Set the x and y properties
+  Set the location of the image.
   """
   @spec at_location(t(), number(), number()) :: t()
   def at_location(image, x, y) do
@@ -40,7 +53,7 @@ defmodule Vectored.Elements.Image do
   end
 
   @doc """
-  Set the width and height
+  Set the dimensions of the image.
   """
   @spec with_size(t(), number(), number()) :: t()
   def with_size(image, width, height) do

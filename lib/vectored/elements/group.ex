@@ -1,8 +1,27 @@
 defmodule Vectored.Elements.Group do
   @moduledoc """
-  The <g> SVG element is a container used to group other SVG elements.
+  The `<g>` element is a container used to group other SVG elements.
 
-  Transformations applied to the <g> element are performed on its child elements, and its attributes are inherited by its children.
+  ## Why use a Group?
+  Groups are essential for organizing your drawing and applying shared styles
+  or transformations.
+
+    * **Shared Styles**: Set `fill="red"` on a group, and all shapes inside
+      will be red unless they specify their own color.
+    * **Transforms**: Move or rotate an entire set of shapes at once by
+      transforming their parent group.
+    * **Organization**: Group related elements (like all parts of an icon)
+      to make the SVG structure readable and easier to manipulate.
+
+  ## Examples
+
+      # Rotate a group of shapes around their shared center
+      Vectored.Elements.Group.new([
+        Vectored.Elements.Circle.new(10, 10, 5),
+        Vectored.Elements.Circle.new(20, 20, 5)
+      ])
+      |> Vectored.Elements.Group.with_transform("rotate(45, 15, 15)")
+
   """
 
   use Vectored.Elements.Element,
@@ -13,14 +32,28 @@ defmodule Vectored.Elements.Group do
           children: children()
         }
 
+  @doc """
+  Create a new group with an optional list of children.
+  """
   @spec new(children()) :: t()
   def new(children \\ []) do
     %__MODULE__{children: children}
   end
 
   @doc """
-  Append one or more SVG children
+  Append one or more children to the group.
+
+  Accepts a single element, a list of elements, or a function that returns elements.
+
+  ## Examples
+
+      group |> Vectored.Elements.Group.append(Vectored.Elements.Circle.new(5))
+      group |> Vectored.Elements.Group.append([rect1, rect2])
   """
+  @spec append(
+          t(),
+          Vectored.Renderable.t() | children() | (-> Vectored.Renderable.t() | children())
+        ) :: t()
   def append(%__MODULE__{} = svg, children) when is_list(children) do
     Enum.reduce(children, svg, fn child, svg -> append(svg, child) end)
   end

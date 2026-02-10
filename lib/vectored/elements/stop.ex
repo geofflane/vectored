@@ -1,6 +1,20 @@
 defmodule Vectored.Elements.Stop do
   @moduledoc """
-  The <stop> SVG element defines a color and its opacity to use at a fixed offset of a gradient.
+  The `<stop>` element defines a color and its opacity at a fixed offset
+  along a gradient.
+
+  ## Attributes
+
+    * `offset` - Position along the gradient vector (number between 0 and 1, or percentage like `"50%"`).
+    * `stop_color` - The color at this offset.
+    * `stop_opacity` - Opacity of the color (number between 0 and 1).
+
+  ## Examples
+
+      iex> Vectored.Elements.Stop.new(0, "red")
+      iex> Vectored.Elements.Stop.new("100%", "#0000ff")
+      ...> |> Vectored.Elements.Stop.with_stop_opacity(0.5)
+
   """
 
   use Vectored.Elements.Element,
@@ -17,7 +31,12 @@ defmodule Vectored.Elements.Stop do
         }
 
   @doc """
-  Create a new stop
+  Create a new gradient stop.
+
+  ## Parameters
+
+    * `offset` - Position (0.0 to 1.0 or percentage string).
+    * `color` - Color value (optional).
   """
   @spec new(String.t() | number(), String.t() | nil) :: t()
   def new(offset, color \\ nil) do

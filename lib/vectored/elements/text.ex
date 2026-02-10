@@ -1,27 +1,29 @@
 defmodule Vectored.Elements.Text do
   @moduledoc """
-  The SVG <text> element draws a graphics element consisting of text. It's possible to apply a gradient, pattern, clipping path, mask, or filter to <text>, just like any other SVG graphics element.
+  The `<text>` element renders a graphics element consisting of text.
 
-  x
-  The x coordinate of the starting point of the text baseline. Value type: <length>|<percentage> ; Default value: 0; Animatable: yes
+  ## Attributes
 
-  y
-  The y coordinate of the starting point of the text baseline. Value type: <length>|<percentage> ; Default value: 0; Animatable: yes
+    * `x`, `y` - Position of the text. By default, `y` is the **baseline**
+      of the text, meaning the bottom of most letters (but not descenders
+      like 'y' or 'g').
+    * `text_anchor` - How the text aligns to the `x` coordinate. `"start"`
+      (left-aligned), `"middle"` (centered), or `"end"` (right-aligned).
+    * `dominant_baseline` - How the text aligns vertically. Use `"middle"`
+      or `"central"` to center text on the `y` coordinate.
 
-  dx
-  Shifts the text position horizontally from a previous text element. Value type: <length>|<percentage> ; Default value: none; Animatable: yes
+  ## Why use SVG Text?
+  SVG text is selectable and searchable by browsers, and it scales perfectly
+  with your graphics. Unlike canvas-based text, it remains crisp at any zoom
+  level and is accessible to screen readers.
 
-  dy
-  Shifts the text position vertically from a previous text element. Value type: <length>|<percentage> ; Default value: none; Animatable: yes
+  ## Examples
 
-  rotate
-  Rotates orientation of each individual glyph. Can rotate glyphs individually. Value type: <list-of-number> ; Default value: none; Animatable: yes
+      # Centered text in the middle of a coordinate system
+      Vectored.Elements.Text.new(50, 50, "Centered")
+      |> Vectored.Elements.Text.with_text_anchor("middle")
+      |> Vectored.Elements.Text.with_dominant_baseline("middle")
 
-  length_adjust
-  How the text is stretched or compressed to fit the width defined by the textLength attribute. Value type: spacing|spacingAndGlyphs; Default value: spacing; Animatable: yes
-
-  text_length
-  A width that the text should be scaled to fit. Value type: <length>|<percentage> ; Default value: none; Animatable: yes
   """
 
   use Vectored.Elements.Element,
@@ -51,18 +53,30 @@ defmodule Vectored.Elements.Text do
           children: list(Vectored.Renderable.t())
         }
 
+  @doc """
+  Create a new text element at a specific location.
+
+  ## Parameters
+
+    * `x` - The x-coordinate of the baseline start.
+    * `y` - The y-coordinate of the baseline start.
+    * `content` - The string to display.
+  """
   @spec new(String.t() | number(), String.t() | number(), String.t()) :: t()
   def new(x, y, content) do
     %__MODULE__{x: x, y: y, content: content}
   end
 
+  @doc """
+  Create a new text element with content. Position defaults to (0,0).
+  """
   @spec new(String.t()) :: t()
   def new(content) do
     %__MODULE__{content: content}
   end
 
   @doc """
-  Set the x and y properties of the Circle to set its location
+  Set the location of the text element.
   """
   @spec at_location(t(), String.t() | number(), String.t() | number()) :: t()
   def at_location(text, x, y) do
@@ -70,8 +84,9 @@ defmodule Vectored.Elements.Text do
   end
 
   @doc """
-  Append a child element (like a tspan)
+  Append a child element, such as a `<tspan>`.
   """
+  @spec append(t(), Vectored.Renderable.t()) :: t()
   def append(%__MODULE__{children: children} = text, child) do
     %{text | children: children ++ [child]}
   end

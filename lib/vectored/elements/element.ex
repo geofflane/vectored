@@ -1,6 +1,39 @@
 defmodule Vectored.Elements.Element do
   @moduledoc """
-  Helps to build elements by including common elements.
+  Core macros and helpers for defining SVG elements.
+
+  This module provides the foundation for all SVG elements in the library.
+  It defines common attributes shared by almost all SVG elements and provides
+  a macro system to easily create new element types with consistent setter functions.
+
+  ## Common Presentation Attributes: How shapes are styled
+
+  In SVG, shapes are just geometries. To make them visible and styled, you use
+  presentation attributes. Most elements in this library include these:
+
+    * **Fill (`fill`)**: The color of the *inside* of the shape. Defaults to black.
+      Use `"none"` for transparent interiors.
+    * **Stroke (`stroke`)**: The color of the *outline*. Shapes have no outline
+      by default.
+    * **Stroke Width (`stroke_width`)**: How thick the outline is.
+    * **Opacity (`opacity`)**: How transparent the whole element is (0.0 to 1.0).
+    * **Transform (`transform`)**: Used to move (`translate`), rotate, or scale
+      the element relative to its original position.
+
+  ## Helper Functions
+
+  When a module uses `Vectored.Elements.Element`, it automatically gains several
+  helper functions:
+
+    * `with_ATTR/2` - For every attribute defined, a setter function is created.
+      For example, `with_fill(element, "red")`.
+    * `with_style/2` - Accepts a keyword list of CSS styles. Use this if you
+      prefer CSS-style strings over individual attributes.
+    * `put_dataset/3`, `delete_dataset/2`, `with_dataset/2` - For `data-*` attributes.
+      Useful for passing metadata to JavaScript or CSS.
+    * `with_description/2`, `with_title/2` - For metadata children that help
+      with accessibility (ARIA).
+
   """
 
   @default_overrides [
@@ -146,15 +179,15 @@ defmodule Vectored.Elements.Element do
         }
 
   @doc """
-  Defome an element that includes the default SVG attributes common to all SVG
-  elements.
+  Defines the struct for an SVG element, including common SVG attributes.
 
-  ### Example
+  This is used by the `__using__` macro to setup the element's structure.
+  The `attributes` parameter should be a keyword list of element-specific attributes
+  and their default values.
 
-  ```
-  use Vectored.Elements.Element,
-       attributes: [cx: 0, cy: 0, r: 0, path_length: nil]
-  ```
+  ## Example
+
+      defelement(cx: 0, cy: 0, r: 0)
   """
   defmacro defelement(attributes) do
     all_attributes = Keyword.merge(@common_attributes ++ @common_children, attributes)
@@ -176,7 +209,15 @@ defmodule Vectored.Elements.Element do
   end
 
   @doc """
-  Helper used to define an element.
+  Makes the calling module an SVG element.
+
+  ## Options
+
+    * `:attributes` - A keyword list of element-specific attributes and their defaults.
+    * `:attribute_overrides` - A keyword list mapping internal field names to SVG
+      attribute names (e.g., `stroke_width: :"stroke-width"`).
+
+  When used, it defines a struct and a set of `with_*` setter functions.
   """
   defmacro __using__(opts) do
     attributes = Keyword.get(opts, :attributes, [])

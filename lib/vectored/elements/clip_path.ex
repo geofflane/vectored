@@ -1,8 +1,30 @@
 defmodule Vectored.Elements.ClipPath do
   @moduledoc """
-  The <clipPath> SVG element defines a clipping path, to be used by the clip-path attribute.
+  The `<clipPath>` element defines a shape that is used to "cut out" parts of 
+  other elements.
 
-  A clipping path restricts the region to which paint can be applied. Conceptually, parts of the drawing that lie outside of the region bounded by the clipping path are not drawn.
+  ## Why use ClipPath?
+  Clipping is like using a **cookie cutter**. Anything outside the clipping 
+  shape is simply not drawn.
+
+    * **Shape Masks**: Make an image appear inside a circle or a complex star 
+      shape.
+    * **Hard Edges**: Unlike `<mask`, a clipping path is binary—an area is 
+      either fully visible or fully hidden.
+    * **Efficiency**: Clipping is generally faster for browsers to render 
+      than transparency-based masking.
+
+  ## Examples
+
+      # Define a circular cookie cutter
+      clip = Vectored.Elements.ClipPath.new([
+        Vectored.Elements.Circle.new(50, 50, 40)
+      ]) |> Vectored.Elements.ClipPath.with_id("my-clip")
+
+      # Apply it to a large rectangle
+      Vectored.Elements.Rectangle.new(0, 0, 100, 100)
+      |> Vectored.Elements.Rectangle.with_clip_path("url(#my-clip)")
+
   """
 
   use Vectored.Elements.Element,
@@ -18,7 +40,7 @@ defmodule Vectored.Elements.ClipPath do
         }
 
   @doc """
-  Create a new clipPath with children
+  Create a new clipping path with an optional list of children.
   """
   @spec new(list(Vectored.Renderable.t())) :: t()
   def new(children \\ []) do
@@ -26,7 +48,7 @@ defmodule Vectored.Elements.ClipPath do
   end
 
   @doc """
-  Append a child element
+  Append a child shape to the clipping path.
   """
   def append(%__MODULE__{children: children} = clip_path, child) do
     %{clip_path | children: children ++ List.wrap(child)}

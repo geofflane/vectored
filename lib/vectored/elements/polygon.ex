@@ -1,12 +1,20 @@
 defmodule Vectored.Elements.Polygon do
   @moduledoc """
-  The <polygon> element defines a closed shape consisting of a set of connected straight line segments. The last point is connected to the first point.
+  The `<polygon>` element defines a closed shape consisting of a set of connected
+  straight line segments.
 
-  points
-  This attribute defines the list of points (pairs of x,y absolute coordinates) required to draw the polyline Value type: <number>+ ; Default value: ""; Animatable: yes
+  The last point is automatically connected back to the first point to close the shape.
 
-  path_length
-  This attribute lets specify the total length for the path, in user units. Value type: <number> ; Default value: none; Animatable: yes
+  ## Attributes
+
+    * `points` - A list of `{x, y}` coordinates.
+    * `path_length` - The total length of the polygon's perimeter in user units.
+
+  ## Examples
+
+      iex> Vectored.Elements.Polygon.new([{0,0}, {50,0}, {25,50}])
+      ...> |> Vectored.Elements.Polygon.with_fill("purple")
+
   """
   use Vectored.Elements.Element,
     attributes: [points: [], path_length: nil]
@@ -17,12 +25,18 @@ defmodule Vectored.Elements.Polygon do
           path_length: String.t() | number() | nil
         }
 
+  @doc """
+  Create a new polygon with an optional list of points.
+  """
   @spec new(list(point())) :: t()
   @spec new() :: t()
   def new(points \\ []) do
     %__MODULE__{points: points |> List.wrap()}
   end
 
+  @doc """
+  Append a point to the polygon.
+  """
   @spec append_points(t(), point()) :: t()
   def append_points(%__MODULE__{points: points} = path, point) do
     %{path | points: List.wrap(points) ++ [point]}

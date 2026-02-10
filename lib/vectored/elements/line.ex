@@ -1,21 +1,21 @@
 defmodule Vectored.Elements.Line do
   @moduledoc """
-  The <line> element is an SVG basic shape used to create a line connecting two points.
+  The `<line>` element is an SVG basic shape used to draw a straight line between two points.
 
-  x1
-  Defines the x-axis coordinate of the line starting point. Value type: <length>|<percentage>|<number> ; Default value: 0; Animatable: yes
+  ## Attributes
 
-  x2
-  Defines the x-axis coordinate of the line ending point. Value type: <length>|<percentage>|<number> ; Default value: 0; Animatable: yes
+    * `x1`, `y1` - The coordinates of the start of the line.
+    * `x2`, `y2` - The coordinates of the end of the line.
+    * `stroke` - Lines are only visible if they have a `stroke` color.
+    * `stroke_width` - The thickness of the line.
 
-  y1
-  Defines the y-axis coordinate of the line starting point. Value type: <length>|<percentage>|<number> ; Default value: 0; Animatable: yes
+  ## Examples
 
-  y2
-  Defines the y-axis coordinate of the line ending point. Value type: <length>|<percentage>|<number> ; Default value: 0; Animatable: yes
+      iex> Vectored.Elements.Line.new()
+      ...> |> Vectored.Elements.Line.from(0, 0)
+      ...> |> Vectored.Elements.Line.to(100, 100)
+      ...> |> Vectored.Elements.Line.with_stroke("black")
 
-  path_length
-  Defines the total path length in user units. Value type: <number> ; Default value: none; Animatable: yes
   """
 
   use Vectored.Elements.Element,
@@ -29,15 +29,26 @@ defmodule Vectored.Elements.Line do
           path_length: number() | nil
         }
 
+  @doc """
+  Create a new line element. Points default to (0,0).
+  """
   @spec new() :: t()
   def new() do
     %__MODULE__{}
   end
 
+  @doc """
+  Set the starting point of the line.
+  """
+  @spec from(t(), String.t() | number(), String.t() | number()) :: t()
   def from(line, x, y) do
     %{line | x1: x, y1: y}
   end
 
+  @doc """
+  Set the ending point of the line.
+  """
+  @spec to(t(), String.t() | number(), String.t() | number()) :: t()
   def to(line, x, y) do
     %{line | x2: x, y2: y}
   end

@@ -1,6 +1,23 @@
 defmodule Vectored.Elements.LinearGradient do
   @moduledoc """
-  The <linearGradient> SVG element lets authors define linear gradients to apply to other SVG elements.
+  The `<linearGradient>` element defines a linear transition between colors.
+
+  It is typically placed inside a `<defs>` element and referenced by its `id`.
+
+  ## Attributes
+
+    * `x1`, `y1`, `x2`, `y2` - The start and end points of the gradient vector.
+    * `gradient_units` - Defines the coordinate system (`"userSpaceOnUse"` or `"objectBoundingBox"`).
+    * `spread_method` - How the gradient repeats (`"pad"`, `"reflect"`, `"repeat"`).
+
+  ## Examples
+
+      iex> Vectored.Elements.LinearGradient.new([
+      ...>   Vectored.Elements.Stop.new(0, "red"),
+      ...>   Vectored.Elements.Stop.new(1, "blue")
+      ...> ])
+      ...> |> Vectored.Elements.LinearGradient.with_id("my-grad")
+
   """
 
   use Vectored.Elements.Element,
@@ -34,7 +51,7 @@ defmodule Vectored.Elements.LinearGradient do
         }
 
   @doc """
-  Create a new linearGradient with children (stops)
+  Create a new linear gradient with an optional list of `<stop>` children.
   """
   @spec new(list(Vectored.Renderable.t())) :: t()
   def new(children \\ []) do
@@ -42,15 +59,23 @@ defmodule Vectored.Elements.LinearGradient do
   end
 
   @doc """
-  Set coordinates
+  Set the start and end coordinates of the gradient vector.
   """
+  @spec with_coordinates(
+          t(),
+          String.t() | number(),
+          String.t() | number(),
+          String.t() | number(),
+          String.t() | number()
+        ) :: t()
   def with_coordinates(gradient, x1, y1, x2, y2) do
     %{gradient | x1: x1, y1: y1, x2: x2, y2: y2}
   end
 
   @doc """
-  Append a stop
+  Append one or more children (typically `<stop>` elements) to the gradient.
   """
+  @spec append(t(), Vectored.Renderable.t() | list(Vectored.Renderable.t())) :: t()
   def append(%__MODULE__{children: children} = gradient, stop) do
     %{gradient | children: children ++ List.wrap(stop)}
   end
