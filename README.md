@@ -1,29 +1,64 @@
 # Vectored
+
 ![Tests](https://github.com/geofflane/vectored/actions/workflows/elixir.yml/badge.svg)
 
-Simple library for drawing SVG images programatically with Elixir.
+`Vectored` is a lightweight, extensible Elixir library for generating SVG images programmatically. It leverages Erlang's built-in `:xmerl` for XML generation, ensuring no heavy external dependencies while providing a fluent, Elixir-native API.
 
 ## Pros and Cons
 
-* No external dependencies at runtime (just this library and xmerl built into Erlang)
-* Just low-level SVG structures. Build your own library of shapes on top of it
-* Pretty extensible
-  * Vectored.Elements.Element provides a `defelement` function that includes a lot of basic functionality
-  * Vectored.Renderable protocol allows you to implement your own custom elements however you want
+### Pros
+
+* **Zero Runtime Dependencies**: Only depends on Elixir and Erlang/OTP (using built-in `:xmerl`).
+* **Fluent API**: Easily pipe attribute setters (`with_fill`, `with_stroke`, etc.) to build complex elements.
+* **Extensible**: Use the `defelement` macro to create your own SVG elements or implement the `Vectored.Renderable` protocol.
+* **Accessibility & Interop**: Built-in support for `<title>`/`<desc>` and `data-*` attributes for frontend framework integration.
+
+### Cons
+
+* **Low-Level**: This library does not provide high-level abstractions (like "BarChart" or "Icon"). It is a thin wrapper over the SVG specification.
+* **Requires SVG Knowledge**: You need to understand how SVG coordinates, viewboxes, and element nesting work.
+* **No Validation**: The library doesn't prevent you from setting invalid attribute values (e.g., `with_fill("not-a-color")`) or nesting elements incorrectly according to the SVG spec.
+* **Verbosity**: Building complex scenes involves a lot of Elixir code compared to writing raw XML or using a templating engine.
 
 ## Installation
 
-Add it to your Mix file
+Add it to your `mix.exs`:
 
+```elixir
+def deps do
+  [
+    {:vectored, git: "https://github.com/geofflane/vectored.git", tag: "0.4.0"}
+  ]
+end
 ```
-{:vectored, git: "https://github.com/geofflane/vectored.git", tag: "0.3.0"}
 
+## Quick Start
+
+```elixir
+alias Vectored.Elements.{Svg, Circle, Rectangle, Stop, LinearGradient}
+
+# Create a simple SVG with a gradient-filled circle
+{:ok, svg_string} =
+  Vectored.new()
+  |> Svg.with_size(200, 200)
+  |> Svg.append_defs(
+    LinearGradient.new([
+      Stop.new("0%", "red"),
+      Stop.new("100%", "blue")
+    ]) |> LinearGradient.with_id("my_grad")
+  )
+  |> Svg.append(
+    Circle.new(100, 100, 80)
+    |> Circle.with_fill("url(#my_grad)")
+  )
+  |> Vectored.to_svg_string()
 ```
 
-## Example
+## Advanced Examples
 
+### Complex Paths
 
-### Simple image
+Vectored provides a dedicated `Path` DSL for building complex shapes:
 
 ```elixir
 alias Vectored
@@ -31,7 +66,7 @@ alias Vectored.Elements.{Path, Svg}
 
 {:ok, svg} =
     Vectored.new()
-    |> Svg.with_viewbox(0, 0, 100, 100)
+    |> Svg.with_view_box(100, 100)
     |> Svg.append(fn ->
         Path.new()
         |> Path.move_to(10, 30)
@@ -42,7 +77,6 @@ alias Vectored.Elements.{Path, Svg}
         |> Path.close_path()
     end)
     |> Vectored.to_svg_string()
-
 ```
 
 Creates an SVG image:
@@ -132,12 +166,29 @@ end
 
 ![Generated Field SVG](docs/field.svg)
 
+## Seeing it in Action (Kitchen Sink)
+
+To see a comprehensive demonstration of all supported SVG elements and attributes, you can run the integration "Kitchen Sink" test. This will generate a `kitchen_sink.svg` file in your project root.
+
+```bash
+mix test test/vectored/integration/kitchen_sink_test.exs --include manual
+```
+
+This image serves as a visual specification of the library's capabilities, including gradients, masks, symbols, and text styling.
+
+## Features & Supported Elements
+
+* **Shapes**: `Circle`, `Rectangle`, `Ellipse`, `Line`, `Polyline`, `Polygon`.
+* **Text**: `Text`, `Tspan`.
+* **Structure**: `Group` (g), `Defs`, `Use`, `Symbol`, `Marker`.
+* **Composition**: `ClipPath`, `Mask`.
+* **Aesthetics**: `LinearGradient`, `RadialGradient`, `Pattern`, `Image`.
+
 ## TODO
 
-- Validate attributes (types, required, etc)
-- More SVG structures
-- More extensive tests (test xml output with xpath?)
-
+* Validate attributes (types, required, etc)
+* More SVG structures
+* More extensive tests (test xml output with xpath?)
 
 ## Copyright and License
 
