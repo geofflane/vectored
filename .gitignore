@@ -26,3 +26,4 @@ vectored-*.tar
 /tmp/
 
 .expert
+.claude
