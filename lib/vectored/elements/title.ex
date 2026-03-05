@@ -11,8 +11,9 @@ defmodule Vectored.Elements.Title do
       as a tooltip when the user hovers over the element.
 
   Place the `<title>` as the first child of the element you want to describe.
-  The `Vectored.Elements.Element.with_title/2` helper is the recommended way
-  to add a title to any shape.
+  The `with_title/2` function available on every element module (e.g.
+  `Vectored.Elements.Circle.with_title/2`) is the recommended way to add a
+  title to any shape.
 
   ## Examples
 

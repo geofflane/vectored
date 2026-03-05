@@ -9,8 +9,9 @@ defmodule Vectored.Elements.Desc do
       charts or diagrams) to screen reader users.
     * **Documentation**: It helps keep your SVG source code self-documenting.
 
-  The `Vectored.Elements.Element.with_description/2` helper is the recommended
-  way to add a description to any shape.
+  The `with_description/2` function available on every element module (e.g.
+  `Vectored.Elements.Group.with_description/2`) is the recommended way to add
+  a description to any shape.
 
   ## Examples
 
