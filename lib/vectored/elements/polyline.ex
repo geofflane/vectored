@@ -56,9 +56,7 @@ defmodule Vectored.Elements.Polyline do
         Keyword.get_and_update(attrs, :points, fn
           points ->
             points_str =
-              points
-              |> Enum.map(fn {x, y} -> "#{x},#{y}" end)
-              |> Enum.join(" ")
+              Enum.map_join(points, " ", fn {x, y} -> "#{x},#{y}" end)
 
             {points, points_str}
         end)

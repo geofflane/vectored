@@ -167,6 +167,7 @@ defmodule Vectored.Elements.Path do
     * `sweep_flag`: `1` for clockwise, `0` for counter-clockwise.
     * `x`, `y`: The end point.
   """
+  # credo:disable-for-next-line Credo.Check.Refactor.FunctionArity
   def eliptical_arc_curve(
         %__MODULE__{} = path,
         rx,

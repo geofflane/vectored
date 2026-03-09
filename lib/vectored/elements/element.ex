@@ -278,11 +278,7 @@ defmodule Vectored.Elements.Element do
       """
       def with_style(elem, styles) when is_list(styles) do
         style_str =
-          styles
-          |> Enum.map(fn {k, v} ->
-            "#{k}: #{v}"
-          end)
-          |> Enum.join("; ")
+          Enum.map_join(styles, "; ", fn {k, v} -> "#{k}: #{v}" end)
 
         %{elem | style: style_str}
       end
