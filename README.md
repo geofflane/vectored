@@ -1,5 +1,7 @@
 # Vectored
 
+[![Hex.pm](https://img.shields.io/hexpm/v/vectored.svg)](https://hex.pm/packages/vectored)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-blue.svg)](https://hexdocs.pm/vectored)
 ![Tests](https://github.com/geofflane/vectored/actions/workflows/elixir.yml/badge.svg)
 
 `Vectored` is a lightweight, extensible Elixir library for generating SVG images programmatically. It leverages Erlang's built-in `:xmerl` for XML generation, ensuring no heavy external dependencies while providing a fluent, Elixir-native API.
@@ -189,6 +191,10 @@ This image serves as a visual specification of the library's capabilities, inclu
 * Validate attributes (types, required, etc)
 * More SVG structures
 * More extensive tests (test xml output with xpath?)
+
+## Documentation
+
+Full documentation is available on [HexDocs](https://hexdocs.pm/vectored).
 
 ## Copyright and License
 
