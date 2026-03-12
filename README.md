@@ -29,7 +29,7 @@ Add it to your `mix.exs`:
 ```elixir
 def deps do
   [
-    {:vectored, git: "https://github.com/geofflane/vectored.git", tag: "0.4.0"}
+    {:vectored, "~> 0.4.0"}
   ]
 end
 ```
