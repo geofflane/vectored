@@ -127,10 +127,13 @@ defmodule Vectored.Elements.Path do
   A shorthand that assumes the first control point is a reflection of the
   previous curve's last control point. Use this to keep curves perfectly
   smooth without math.
+
+  The SVG `S`/`s` command takes only the second control point `x2,y2` and the
+  endpoint `x,y`; the first control point is inferred.
   """
-  def smooth_bezier_curve(%__MODULE__{} = path, x1, y1, x2, y2, x, y, rel \\ false) do
+  def smooth_bezier_curve(%__MODULE__{} = path, x2, y2, x, y, rel \\ false) do
     op = if rel, do: "s", else: "S"
-    append_path(path, "#{op} #{x1},#{y1} #{x2},#{y2} #{x},#{y}")
+    append_path(path, "#{op} #{x2},#{y2} #{x},#{y}")
   end
 
   @doc """

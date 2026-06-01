@@ -33,4 +33,20 @@ defmodule Vectored.Elements.PathTest do
     path = Path.new() |> Path.move_to(0, 0) |> Path.smooth_quadratic_curve(10, 0, true)
     assert d(path) == "M 0,0 t 10,0"
   end
+
+  test "cubic_bezier_curve emits C with two control points and an endpoint" do
+    path = Path.new() |> Path.move_to(0, 0) |> Path.cubic_bezier_curve(0, 5, 10, 5, 10, 0)
+    assert d(path) == "M 0,0 C 0,5 10,5 10,0"
+  end
+
+  test "smooth_bezier_curve emits S with one control point and an endpoint" do
+    # SVG's S command infers the first control point; it takes x2,y2 and the endpoint.
+    path = Path.new() |> Path.move_to(0, 0) |> Path.smooth_bezier_curve(10, 5, 10, 0)
+    assert d(path) == "M 0,0 S 10,5 10,0"
+  end
+
+  test "smooth_bezier_curve uses lowercase s when relative" do
+    path = Path.new() |> Path.move_to(0, 0) |> Path.smooth_bezier_curve(10, 5, 10, 0, true)
+    assert d(path) == "M 0,0 s 10,5 10,0"
+  end
 end
