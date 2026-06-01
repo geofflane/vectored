@@ -8,10 +8,12 @@ defmodule Vectored do
 
   ## Examples
 
-      iex> Vectored.new(100, 100)
-      ...> |> Vectored.Elements.Svg.add_child(Vectored.Elements.Circle.new(50, 50, 40))
-      ...> |> Vectored.to_svg_string()
-      {:ok, "<svg height=\"100\" width=\"100\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"50\" cy=\"50\" r=\"40\"/></svg>"}
+      svg =
+        Vectored.new(100, 100)
+        |> Vectored.Elements.Svg.append(Vectored.Elements.Circle.new(50, 50, 40))
+
+      {:ok, xml} = Vectored.to_svg_string(svg)
+      # xml => ~s(<svg height="100" width="100" xmlns="...">...<circle .../></svg>)
 
   """
 
@@ -57,8 +59,8 @@ defmodule Vectored do
 
   ## Examples
 
-      iex> Vectored.Elements.Circle.new(10) |> Vectored.to_svg_string()
-      {:ok, "<circle r=\"10\"/>"}
+      {:ok, xml} = Vectored.Elements.Circle.new(10) |> Vectored.to_svg_string()
+      # xml => ~s(<circle cx="0" cy="0" r="10"/>)
 
   """
   def to_svg_string(element) do

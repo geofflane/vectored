@@ -31,6 +31,14 @@ defmodule Vectored.Elements.Element do
       prefer CSS-style strings over individual attributes.
     * `put_dataset/3`, `delete_dataset/2`, `with_dataset/2` - For `data-*` attributes.
       Useful for passing metadata to JavaScript or CSS.
+
+      > #### Security: dataset keys become atoms {: .warning}
+      >
+      > Dataset *keys* are converted to atoms when rendered (the underlying
+      > `:xmerl` serializer requires atom attribute names). Atoms are never
+      > garbage-collected, so passing untrusted, user-derived strings as dataset
+      > *keys* can exhaust the atom table and crash the BEAM. Always use static,
+      > developer-controlled key names. Dataset *values* are unrestricted and safe.
     * `with_description/2`, `with_title/2` - For metadata children that help
       with accessibility (ARIA).
 
@@ -286,6 +294,13 @@ defmodule Vectored.Elements.Element do
       @doc """
       Set a dataset attribute. Mimics the DOM Element.dataset API.
       The key will be converted from camelCase to kebab-case for the data-* attribute.
+
+      > #### Security {: .warning}
+      >
+      > The `key` is converted to an atom at render time (required by `:xmerl`).
+      > Never pass untrusted/user-derived strings as `key` — unbounded distinct
+      > keys exhaust the atom table and crash the BEAM. Use static key names.
+      > `value` is safe and may be dynamic.
       """
       def put_dataset(elem, key, value) when is_atom(key) do
         put_dataset(elem, Atom.to_string(key), value)

@@ -145,13 +145,13 @@ defmodule Vectored.Elements.Path do
 
   @doc """
   Draw a smooth quadratic Bezier curve.
+
+  The SVG `T`/`t` command takes only the endpoint `x,y`; the control point is
+  inferred as the reflection of the previous curve's control point.
   """
-  def smooth_quadratic_curve(%__MODULE__{} = path, x1, y1, x, y, rel \\ false) do
-    # Note: T command only takes the end point, but the API here seems to take x1,y1?
-    # Actually checking the code: append_path(path, "#{op} #{x1},#{y1} #{x},#{y}")
-    # Wait, the T command in SVG spec only takes x,y. Let's fix this while we are here.
+  def smooth_quadratic_curve(%__MODULE__{} = path, x, y, rel \\ false) do
     op = if rel, do: "t", else: "T"
-    append_path(path, "#{op} #{x1},#{y1} #{x},#{y}")
+    append_path(path, "#{op} #{x},#{y}")
   end
 
   @doc """
