@@ -7,11 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-06-02
+
+### Added
+
+- New elements: `ClipPath`, `Ellipse`, `Image`, `LinearGradient`, `Mask`, `Pattern`, `RadialGradient`, `Stop`, `Symbol`, and `Tspan`
+- Common element attributes shared across elements
+- Credo for static analysis
+- Community standards docs (code of conduct, contributing guide, issue and pull request templates)
+- Hex badges and a documentation section in the README
+
 ### Changed
 
-- Added Credo and fixed map_join optimization warnings
-- Documentation improvements and typo fixes
-- Updated mix.exs for Hex publishing
+- Improved documentation across all elements, including a kitchen-sink integration example
+- Updated dependencies (including `ex_doc`)
+- Updated `mix.exs` for Hex publishing
+
+### Fixed
+
+- Path rendering bugs
+- Updating a circle's radius
+- `map_join` optimization warnings
+- Module doc example, installation reference, and assorted typos
 
 ## [0.3.4] - 2025-09-22
 
