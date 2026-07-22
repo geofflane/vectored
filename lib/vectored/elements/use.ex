@@ -30,7 +30,7 @@ defmodule Vectored.Elements.Use do
     attributes: []
 
   @type t :: %__MODULE__{
-          href: String.t(),
+          href: String.t() | nil,
           x: String.t() | number() | nil,
           y: String.t() | number() | nil,
           width: String.t() | number() | nil,

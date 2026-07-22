@@ -64,7 +64,7 @@ defmodule Vectored.Elements.Circle do
 
   Useful for moving a circle dynamically based on calculation or data.
   """
-  @spec at_location(t(), number(), number()) :: t()
+  @spec at_location(t(), String.t() | number(), String.t() | number()) :: t()
   def at_location(circle, x, y) do
     %{circle | cx: x, cy: y}
   end

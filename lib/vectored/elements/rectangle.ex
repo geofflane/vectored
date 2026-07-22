@@ -31,13 +31,13 @@ defmodule Vectored.Elements.Rectangle do
     attributes: [rx: nil, ry: nil, path_length: nil]
 
   @type t :: %__MODULE__{
-          x: String.t() | number(),
-          y: String.t() | number(),
+          x: String.t() | number() | nil,
+          y: String.t() | number() | nil,
           width: String.t() | number() | nil,
           height: String.t() | number() | nil,
           rx: String.t() | number() | nil,
           ry: String.t() | number() | nil,
-          path_length: String.t() | nil
+          path_length: number() | nil
         }
 
   @doc """
@@ -51,7 +51,12 @@ defmodule Vectored.Elements.Rectangle do
   @doc """
   Create a rectangle with specified position and dimensions.
   """
-  @spec new(number(), number(), number(), number()) :: t()
+  @spec new(
+          String.t() | number(),
+          String.t() | number(),
+          String.t() | number(),
+          String.t() | number()
+        ) :: t()
   def new(x, y, width, height) do
     %__MODULE__{x: x, y: y, width: width, height: height}
   end

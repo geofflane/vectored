@@ -66,9 +66,9 @@ defmodule Vectored.Elements.Marker do
     ]
 
   @type t :: %__MODULE__{
-          marker_height: number(),
-          marker_units: number() | nil,
-          marker_width: number(),
+          marker_height: String.t() | number(),
+          marker_units: String.t() | nil,
+          marker_width: String.t() | number(),
           orient: String.t() | number(),
           preserve_aspect_ratio: String.t() | nil,
           ref_x: number() | String.t(),
@@ -88,7 +88,7 @@ defmodule Vectored.Elements.Marker do
   @doc """
   Set the size of the marker viewport.
   """
-  @spec size(t(), number(), number()) :: t()
+  @spec size(t(), String.t() | number(), String.t() | number()) :: t()
   def size(marker, width, height) do
     %{marker | marker_width: width, marker_height: height}
   end

@@ -39,7 +39,13 @@ defmodule Vectored.Elements.Image do
   @doc """
   Create a new image with position, dimensions, and href.
   """
-  @spec new(number(), number(), number(), number(), String.t()) :: t()
+  @spec new(
+          String.t() | number(),
+          String.t() | number(),
+          String.t() | number(),
+          String.t() | number(),
+          String.t()
+        ) :: t()
   def new(x, y, width, height, href) do
     %__MODULE__{x: x, y: y, width: width, height: height, href: href}
   end
@@ -47,7 +53,7 @@ defmodule Vectored.Elements.Image do
   @doc """
   Set the location of the image.
   """
-  @spec at_location(t(), number(), number()) :: t()
+  @spec at_location(t(), String.t() | number(), String.t() | number()) :: t()
   def at_location(image, x, y) do
     %{image | x: x, y: y}
   end

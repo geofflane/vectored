@@ -41,10 +41,10 @@ defmodule Vectored.Elements.Tspan do
           y: String.t() | number() | nil,
           dx: String.t() | number() | nil,
           dy: String.t() | number() | nil,
-          rotate: String.t() | nil,
+          rotate: String.t() | number() | nil,
           length_adjust: String.t() | nil,
           text_length: String.t() | number() | nil,
-          content: String.t()
+          content: String.t() | nil
         }
 
   @doc """

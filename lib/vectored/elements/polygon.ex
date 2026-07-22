@@ -22,7 +22,7 @@ defmodule Vectored.Elements.Polygon do
   @type point :: {number(), number()}
   @type t :: %__MODULE__{
           points: list(point()),
-          path_length: String.t() | number() | nil
+          path_length: number() | nil
         }
 
   @doc """

@@ -24,7 +24,7 @@ defmodule Vectored.Elements.Polyline do
   @type point :: {number(), number()}
   @type t :: %__MODULE__{
           points: list(point()),
-          path_length: String.t() | number() | nil,
+          path_length: number() | nil,
           marker_start: String.t() | nil,
           marker_mid: String.t() | nil,
           marker_end: String.t() | nil
