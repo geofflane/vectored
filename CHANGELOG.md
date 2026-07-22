@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-07-22
+
+### Changed
+
+- Rendered attributes are now emitted in a stable alphabetical order, with `data-*`
+  attributes last. Generated SVG is semantically identical, but attribute order differs
+  from previous releases, so committed or snapshot-tested output will show a diff.
+- `Rectangle.new/4`, `Image.new/5`, `Image.at_location/3`, `Circle.at_location/3`, and
+  `Marker.size/3` now accept `<length-percentage>` strings such as `"50%"` or `"2em"` in
+  addition to numbers. This matches the struct types and what the renderer already
+  supported; only the specs were too narrow.
+- Narrowed `path_length` to `number() | nil` on `Rectangle`, `Path`, `Polygon`, and
+  `Polyline`. SVG defines `pathLength` as a `<number>`; the attribute had accumulated
+  three different spellings across the library, and `Circle` and `Ellipse` were already
+  correct.
+
+### Fixed
+
+- Several typespecs declared a field as non-nilable while the struct defaulted it to
+  `nil`: `Text.content`, `Tspan.content`, `Use.href`, and `Rectangle.x` / `Rectangle.y`.
+- `Marker.marker_units` was typed `number()`. It is the enum `"strokeWidth"` /
+  `"userSpaceOnUse"`, now `String.t() | nil`.
+- `rotate` on `Text` and `Tspan` was typed `String.t()`. SVG allows a list of numbers, so
+  a bare number is valid; now `String.t() | number() | nil`.
+
 ## [0.4.0] - 2026-06-02
 
 ### Added
@@ -98,7 +123,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Defs and Use elements
 - xmlns handling
 
-[Unreleased]: https://github.com/geofflane/vectored/compare/0.3.4...HEAD
+[Unreleased]: https://github.com/geofflane/vectored/compare/0.4.0...HEAD
+[0.4.0]: https://github.com/geofflane/vectored/compare/0.3.4...0.4.0
 [0.3.4]: https://github.com/geofflane/vectored/compare/0.3.3...0.3.4
 [0.3.3]: https://github.com/geofflane/vectored/compare/0.3.2...0.3.3
 [0.3.2]: https://github.com/geofflane/vectored/compare/0.3.1...0.3.2
