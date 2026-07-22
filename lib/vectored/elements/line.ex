@@ -9,12 +9,25 @@ defmodule Vectored.Elements.Line do
     * `stroke` - Lines are only visible if they have a `stroke` color.
     * `stroke_width` - The thickness of the line.
 
+  `x1`, `y1`, `x2` and `y2` are `<length-percentage>` values. Pass a number for
+  user units, or a string for a percentage or CSS unit (`"50%"`, `"2em"`,
+  `"10px"`). Percentages resolve against the viewport: the `x` pair against its
+  width, the `y` pair against its height.
+
   ## Examples
 
       iex> Vectored.Elements.Line.new()
       ...> |> Vectored.Elements.Line.from(0, 0)
       ...> |> Vectored.Elements.Line.to(100, 100)
       ...> |> Vectored.Elements.Line.with_stroke("black")
+      ...> |> Vectored.to_svg_string()
+      {:ok, ~s|<line stroke="black" x1="0" x2="100" y1="0" y2="100"/>|}
+
+      # A horizontal rule spanning the full width of the viewport
+      iex> Vectored.Elements.Line.new()
+      ...> |> Vectored.Elements.Line.to("100%", 0)
+      ...> |> Vectored.to_svg_string()
+      {:ok, ~s|<line x1="0" x2="100%" y1="0" y2="0"/>|}
 
   """
 

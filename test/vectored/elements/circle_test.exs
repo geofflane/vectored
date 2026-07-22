@@ -1,6 +1,8 @@
 defmodule Vectored.Elements.CircleTest do
   use ExUnit.Case, async: true
 
+  doctest Vectored.Elements.Circle
+
   test "is renderable" do
     assert {:circle, attrs, []} =
              Vectored.Renderable.to_svg(%Vectored.Elements.Circle{cx: 1, cy: 1, r: 5})

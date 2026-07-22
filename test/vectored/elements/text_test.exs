@@ -3,6 +3,8 @@ defmodule Vectored.Elements.TextTest do
   alias Vectored.Elements.Text
   alias Vectored.Renderable
 
+  doctest Vectored.Elements.Text
+
   test "is renderable" do
     assert {:text, attrs, _} =
              Text.new(1, 1, "Test")

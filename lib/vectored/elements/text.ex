@@ -12,6 +12,14 @@ defmodule Vectored.Elements.Text do
     * `dominant_baseline` - How the text aligns vertically. Use `"middle"`
       or `"central"` to center text on the `y` coordinate.
 
+  `x`, `y`, `dx`, `dy` and `text_length` accept a number for user units, or a
+  string for a percentage or CSS unit (`"50%"`, `"2em"`, `"10px"`).
+
+  `x`, `y`, `dx`, `dy` and `rotate` are additionally *lists* — a
+  space-separated string applies one value per glyph, so `x: "10 20 30"`
+  positions the first three characters individually and `rotate: "0 15 30"`
+  fans them out. A single value applies to the whole run.
+
   ## Why use SVG Text?
   SVG text is selectable and searchable by browsers, and it scales perfectly
   with your graphics. Unlike canvas-based text, it remains crisp at any zoom
@@ -20,9 +28,17 @@ defmodule Vectored.Elements.Text do
   ## Examples
 
       # Centered text in the middle of a coordinate system
-      Vectored.Elements.Text.new(50, 50, "Centered")
-      |> Vectored.Elements.Text.with_text_anchor("middle")
-      |> Vectored.Elements.Text.with_dominant_baseline("middle")
+      iex> Vectored.Elements.Text.new(50, 50, "Centered")
+      ...> |> Vectored.Elements.Text.with_text_anchor("middle")
+      ...> |> Vectored.Elements.Text.with_dominant_baseline("middle")
+      ...> |> Vectored.to_svg_string()
+      {:ok, ~s|<text dominant-baseline="middle" text-anchor="middle" x="50" y="50">Centered</text>|}
+
+      # Per-glyph positioning: each character gets its own x and rotation
+      iex> Vectored.Elements.Text.new("10 20 30", "40", "abc")
+      ...> |> Vectored.Elements.Text.with_rotate("0 15 30")
+      ...> |> Vectored.to_svg_string()
+      {:ok, ~s|<text rotate="0 15 30" x="10 20 30" y="40">abc</text>|}
 
   """
 

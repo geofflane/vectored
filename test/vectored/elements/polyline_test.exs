@@ -1,6 +1,8 @@
 defmodule Vectored.Elements.PolylineTest do
   use ExUnit.Case, async: true
 
+  doctest Vectored.Elements.Polyline
+
   test "is renderable" do
     assert {:polyline, attrs, []} =
              Vectored.Elements.Polyline.new([{1, 2}, {3, 4}])

@@ -9,11 +9,24 @@ defmodule Vectored.Elements.Image do
     * `width`, `height` - The dimensions of the image.
     * `href` - The URL or path to the image file.
 
+  `x`, `y`, `width` and `height` are `<length-percentage>` values. Pass a number
+  for user units, or a string for a percentage or CSS unit (`"50%"`, `"2em"`,
+  `"10px"`). Percentages resolve against the viewport: `x`/`width` against its
+  width, `y`/`height` against its height.
+
   ## Examples
 
-      iex> Vectored.Elements.Image.new("https://example.com/logo.png")
+      iex> Vectored.Elements.Image.new("logo.png")
       ...> |> Vectored.Elements.Image.at_location(10, 10)
       ...> |> Vectored.Elements.Image.with_size(100, 100)
+      ...> |> Vectored.to_svg_string()
+      {:ok, ~s|<image height="100" href="logo.png" width="100" x="10" y="10"/>|}
+
+      # An image scaled to its container rather than to fixed user units
+      iex> Vectored.Elements.Image.new("logo.png")
+      ...> |> Vectored.Elements.Image.with_size("100%", "auto")
+      ...> |> Vectored.to_svg_string()
+      {:ok, ~s|<image height="auto" href="logo.png" width="100%" x="0" y="0"/>|}
 
   """
 

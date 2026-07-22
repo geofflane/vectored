@@ -3,6 +3,8 @@ defmodule Vectored.Elements.RectangleTest do
   alias Vectored.Elements.Rectangle
   alias Vectored.Renderable
 
+  doctest Vectored.Elements.Rectangle
+
   test "is renderable" do
     assert {:rect, attrs, []} =
              Rectangle.new()

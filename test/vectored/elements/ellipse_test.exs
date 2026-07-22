@@ -2,6 +2,8 @@ defmodule Vectored.Elements.EllipseTest do
   use ExUnit.Case, async: true
   alias Vectored.Elements.Ellipse
 
+  doctest Vectored.Elements.Ellipse
+
   test "is renderable" do
     assert {:ellipse, attrs, []} =
              Vectored.Renderable.to_svg(Ellipse.new(10, 20, 5, 8))

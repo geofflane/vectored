@@ -1,6 +1,8 @@
 defmodule Vectored.Elements.PolygonTest do
   use ExUnit.Case, async: true
 
+  doctest Vectored.Elements.Polygon
+
   test "is renderable" do
     assert {:polygon, attrs, []} =
              Vectored.Elements.Polygon.new([{1, 2}, {3, 4}])

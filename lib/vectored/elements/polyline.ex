@@ -13,9 +13,12 @@ defmodule Vectored.Elements.Polyline do
 
   ## Examples
 
-      iex> Vectored.Elements.Polyline.new([{0,0}, {20,20}, {40,0}, {60,20}])
+      # `fill: "none"` matters here — an unfilled polyline is a stroke, not a shape
+      iex> Vectored.Elements.Polyline.new([{0, 0}, {20, 20}, {40, 0}])
       ...> |> Vectored.Elements.Polyline.with_fill("none")
       ...> |> Vectored.Elements.Polyline.with_stroke("blue")
+      ...> |> Vectored.to_svg_string()
+      {:ok, ~s|<polyline fill="none" points="0,0 20,20 40,0" stroke="blue"/>|}
 
   """
   use Vectored.Elements.Element,

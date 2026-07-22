@@ -12,8 +12,11 @@ defmodule Vectored.Elements.Polygon do
 
   ## Examples
 
-      iex> Vectored.Elements.Polygon.new([{0,0}, {50,0}, {25,50}])
+      # `{x, y}` tuples are serialized to the SVG `points` format on render
+      iex> Vectored.Elements.Polygon.new([{0, 0}, {50, 0}, {25, 50}])
       ...> |> Vectored.Elements.Polygon.with_fill("purple")
+      ...> |> Vectored.to_svg_string()
+      {:ok, ~s|<polygon fill="purple" points="0,0 50,0 25,50"/>|}
 
   """
   use Vectored.Elements.Element,

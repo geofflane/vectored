@@ -2,6 +2,8 @@ defmodule Vectored.Elements.ImageTest do
   use ExUnit.Case, async: true
   alias Vectored.Elements.Image
 
+  doctest Vectored.Elements.Image
+
   test "is renderable" do
     assert {:image, attrs, []} =
              Vectored.Renderable.to_svg(Image.new(0, 0, 100, 100, "test.png"))

@@ -10,7 +10,12 @@ defmodule Vectored.Elements.Rectangle do
       corners will have a 5-unit radius. If you set both, you can create
       elliptical corners.
     * `path_length` - Recalibrates the total perimeter length for dashed-line
-      animations.
+      animations. Must be a number.
+
+  `x`, `y`, `width`, `height`, `rx` and `ry` are `<length-percentage>` values.
+  Pass a number for user units, or a string for a percentage or CSS unit
+  (`"50%"`, `"2em"`, `"10px"`). Percentages resolve against the viewport:
+  `x`/`width` against its width, `y`/`height` against its height.
 
   ## Why use a Rectangle?
   Rectangles are the building blocks for many UI elements in SVG, from
@@ -21,9 +26,16 @@ defmodule Vectored.Elements.Rectangle do
   ## Examples
 
       # A 100x50 blue box with rounded corners
-      Vectored.Elements.Rectangle.new(10, 10, 100, 50)
-      |> Vectored.Elements.Rectangle.with_fill("blue")
-      |> Vectored.Elements.Rectangle.with_rx(8)
+      iex> Vectored.Elements.Rectangle.new(10, 10, 100, 50)
+      ...> |> Vectored.Elements.Rectangle.with_fill("blue")
+      ...> |> Vectored.Elements.Rectangle.with_rx(8)
+      ...> |> Vectored.to_svg_string()
+      {:ok, ~s|<rect fill="blue" height="50" rx="8" width="100" x="10" y="10"/>|}
+
+      # A box that always covers 80% of the viewport width, whatever the view_box
+      iex> Vectored.Elements.Rectangle.new("10%", "10%", "80%", "50%")
+      ...> |> Vectored.to_svg_string()
+      {:ok, ~s|<rect height="50%" width="80%" x="10%" y="10%"/>|}
 
   """
 

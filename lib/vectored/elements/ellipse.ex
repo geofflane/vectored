@@ -9,11 +9,24 @@ defmodule Vectored.Elements.Ellipse do
     * `cx`, `cy` - The coordinates of the center of the ellipse.
     * `rx`, `ry` - The horizontal and vertical radii of the ellipse.
     * `path_length` - The total length of the ellipse's perimeter in user units.
+      Must be a number.
+
+  `cx`, `cy`, `rx` and `ry` are `<length-percentage>` values. Pass a number for
+  user units, or a string for a percentage or CSS unit (`"50%"`, `"2em"`,
+  `"10px"`). Percentages resolve against the viewport: `cx`/`rx` against its
+  width, `cy`/`ry` against its height.
 
   ## Examples
 
       iex> Vectored.Elements.Ellipse.new(100, 50, 80, 40)
       ...> |> Vectored.Elements.Ellipse.with_fill("yellow")
+      ...> |> Vectored.to_svg_string()
+      {:ok, ~s|<ellipse cx="100" cy="50" fill="yellow" rx="80" ry="40"/>|}
+
+      # An ellipse that stretches with its container
+      iex> Vectored.Elements.Ellipse.new("50%", "50%", "40%", "25%")
+      ...> |> Vectored.to_svg_string()
+      {:ok, ~s|<ellipse cx="50%" cy="50%" rx="40%" ry="25%"/>|}
 
   """
 

@@ -20,6 +20,14 @@ defmodule Vectored.Elements.Marker do
     * `ref_x`, `ref_y` - The "anchor point" of the marker. For an arrowhead, 
       this is usually the tip.
     * `orient` - Set to `"auto"` to align with the line, or a fixed angle.
+    * `marker_units` - How `marker_width`/`marker_height` are interpreted:
+      `"strokeWidth"` (the default, scaling with the line's thickness) or
+      `"userSpaceOnUse"`.
+
+  `marker_width`, `marker_height`, `ref_x` and `ref_y` are
+  `<length-percentage>` values. Pass a number for user units, or a string for a
+  percentage or CSS unit. `ref_x`/`ref_y` also accept the keywords `"left"`,
+  `"center"` and `"right"` (`"top"`, `"center"`, `"bottom"` for `ref_y`).
 
   ## Examples
 

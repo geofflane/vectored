@@ -11,9 +11,14 @@ defmodule Vectored.Elements.Stop do
 
   ## Examples
 
-      iex> Vectored.Elements.Stop.new(0, "red")
+      iex> Vectored.Elements.Stop.new(0, "red") |> Vectored.to_svg_string()
+      {:ok, ~s|<stop offset="0" stop-color="red"/>|}
+
+      # `offset` accepts a percentage string as well as a 0..1 number
       iex> Vectored.Elements.Stop.new("100%", "#0000ff")
       ...> |> Vectored.Elements.Stop.with_stop_opacity(0.5)
+      ...> |> Vectored.to_svg_string()
+      {:ok, ~s|<stop offset="100%" stop-color="#0000ff" stop-opacity="0.5"/>|}
 
   """
 

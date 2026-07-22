@@ -3,6 +3,8 @@ defmodule Vectored.Elements.LineTest do
   alias Vectored.Elements.Line
   alias Vectored.Renderable
 
+  doctest Vectored.Elements.Line
+
   test "is renderable" do
     assert {:line, attrs, []} =
              Line.new()

@@ -346,6 +346,7 @@ defmodule Vectored.Elements.Element do
         end
       end)
       |> Enum.reject(&is_nil/1)
+      |> Enum.sort_by(&elem(&1, 0))
 
     # Add dataset attributes as data-* attributes
     dataset_attrs =
@@ -363,6 +364,7 @@ defmodule Vectored.Elements.Element do
             attr_name = camel_to_data_attr(key)
             {String.to_atom(attr_name), maybe_cast(value)}
           end)
+          |> Enum.sort_by(&elem(&1, 0))
       end
 
     regular_attrs ++ dataset_attrs

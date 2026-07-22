@@ -2,6 +2,8 @@ defmodule Vectored.Elements.StopTest do
   use ExUnit.Case, async: true
   alias Vectored.Elements.Stop
 
+  doctest Vectored.Elements.Stop
+
   test "is renderable" do
     stop =
       Stop.new("50%", "red")

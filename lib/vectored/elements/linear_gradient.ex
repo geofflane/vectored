@@ -17,6 +17,8 @@ defmodule Vectored.Elements.LinearGradient do
       ...>   Vectored.Elements.Stop.new(1, "blue")
       ...> ])
       ...> |> Vectored.Elements.LinearGradient.with_id("my-grad")
+      ...> |> Vectored.to_svg_string()
+      {:ok, ~s|<linearGradient id="my-grad"><stop offset="0" stop-color="red"/><stop offset="1" stop-color="blue"/></linearGradient>|}
 
   """
 

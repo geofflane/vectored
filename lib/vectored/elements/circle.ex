@@ -11,7 +11,12 @@ defmodule Vectored.Elements.Circle do
     * `r` - The radius. This determines the size. If the SVG has a `view_box`,
       this value is relative to that coordinate system.
     * `path_length` - An optional attribute to "recalibrate" the length of
-      the circle's perimeter, useful for dashed-line animations.
+      the circle's perimeter, useful for dashed-line animations. Must be a
+      number.
+
+  `cx`, `cy` and `r` are `<length-percentage>` values. Pass a number for user
+  units, or a string for a percentage or CSS unit (`"50%"`, `"2em"`, `"10px"`).
+  A percentage `r` resolves against the normalized diagonal of the viewport.
 
   ## Why use a Circle?
   While you could draw a circle using a `<path>`, the `<circle>` element is
@@ -21,8 +26,15 @@ defmodule Vectored.Elements.Circle do
   ## Examples
 
       # Draws a red circle with a 40-unit radius
-      Vectored.Elements.Circle.new(40)
-      |> Vectored.Elements.Circle.with_fill("red")
+      iex> Vectored.Elements.Circle.new(40)
+      ...> |> Vectored.Elements.Circle.with_fill("red")
+      ...> |> Vectored.to_svg_string()
+      {:ok, ~s|<circle cx="0" cy="0" fill="red" r="40"/>|}
+
+      # A circle pinned to the centre of the viewport, sized in em
+      iex> Vectored.Elements.Circle.new("50%", "50%", "2em")
+      ...> |> Vectored.to_svg_string()
+      {:ok, ~s|<circle cx="50%" cy="50%" r="2em"/>|}
 
   """
 

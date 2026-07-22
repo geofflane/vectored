@@ -2,6 +2,8 @@ defmodule Vectored.Elements.LinearGradientTest do
   use ExUnit.Case, async: true
   alias Vectored.Elements.{LinearGradient, Stop}
 
+  doctest Vectored.Elements.LinearGradient
+
   test "is renderable" do
     gradient =
       LinearGradient.new([
