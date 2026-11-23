@@ -338,17 +338,15 @@ defmodule Vectored.Elements.Element do
   end
 
   def attributes(element, attrs) do
+    # Only nil is omitted; `false` renders as "false", matching dataset values.
+    # `v <- [...]` binds without filtering; `v = ...` in a `for` would also act
+    # as a truthiness filter and silently drop `false`.
     regular_attrs =
-      attrs
-      |> Enum.map(fn key ->
-        v = Map.get(element, key)
-
-        if v do
-          # to_string because xmerl only deals with iolist, atom and integers
-          {element.__struct__.rendered_key(key), maybe_cast(v)}
-        end
-      end)
-      |> Enum.reject(&is_nil/1)
+      for key <- attrs,
+          v <- [Map.get(element, key)],
+          not is_nil(v) do
+        {element.__struct__.rendered_key(key), maybe_cast(v)}
+      end
       |> Enum.sort_by(&elem(&1, 0))
 
     # Add dataset attributes as data-* attributes
