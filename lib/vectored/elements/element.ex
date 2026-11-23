@@ -50,7 +50,6 @@ defmodule Vectored.Elements.Element do
 
   @default_overrides [
     path_length: :pathLength,
-    stroke_width: :"stroke-width",
     view_box: :viewBox,
     preserve_aspect_ratio: :preserveAspectRatio,
     alignment_baseline: :"alignment-baseline",

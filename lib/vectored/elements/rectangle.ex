@@ -86,6 +86,7 @@ defmodule Vectored.Elements.Rectangle do
 
   Units are relative to the current coordinate system or `view_box`.
   """
+  @spec with_size(t(), String.t() | number(), String.t() | number()) :: t()
   def with_size(rectangle, width, height) do
     %{rectangle | width: width, height: height}
   end

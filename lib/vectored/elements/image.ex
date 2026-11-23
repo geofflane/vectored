@@ -5,7 +5,8 @@ defmodule Vectored.Elements.Image do
 
   ## Attributes
 
-    * `x`, `y` - The coordinates of the top-left corner of the image.
+    * `x`, `y` - The coordinates of the top-left corner of the image. Default
+      to `0`. Set to `nil` to omit the attribute (SVG treats it as `0`).
     * `width`, `height` - The dimensions of the image.
     * `href` - The URL or path to the image file.
 
@@ -74,7 +75,7 @@ defmodule Vectored.Elements.Image do
   @doc """
   Set the dimensions of the image.
   """
-  @spec with_size(t(), number(), number()) :: t()
+  @spec with_size(t(), String.t() | number(), String.t() | number()) :: t()
   def with_size(image, width, height) do
     %{image | width: width, height: height}
   end

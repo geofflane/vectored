@@ -6,8 +6,9 @@ defmodule Vectored.Elements.Circle do
 
   ## Attributes
 
-    * `cx`, `cy` - The center of the circle. If omitted, the circle's center
-      is at the top-left (0,0) of the current coordinate system.
+    * `cx`, `cy` - The center of the circle. Default to `0`. Set to `nil` to
+      omit the attribute; SVG then places the center at (0,0) of the current
+      coordinate system.
     * `r` - The radius. This determines the size. If the SVG has a `view_box`,
       this value is relative to that coordinate system.
     * `path_length` - An optional attribute to "recalibrate" the length of

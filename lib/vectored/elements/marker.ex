@@ -104,7 +104,7 @@ defmodule Vectored.Elements.Marker do
   @doc """
   Set the reference point (anchor point) of the marker.
   """
-  @spec ref(t(), number() | String.t(), number() | String.t()) :: t()
+  @spec ref(t(), String.t() | number(), String.t() | number()) :: t()
   def ref(marker, x, y) do
     %{marker | ref_x: x, ref_y: y}
   end
