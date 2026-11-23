@@ -49,9 +49,12 @@ defmodule Vectored.Elements.Stop do
   end
 
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.Stop{} = element) do
-      attrs = Vectored.Elements.Stop.attributes(element)
-      children = Vectored.Elements.Element.render_common_children(element)
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.Stop
+
+    def to_svg(%Stop{} = element) do
+      attrs = Stop.attributes(element)
+      children = Element.render_common_children(element)
       {:stop, attrs, children}
     end
   end

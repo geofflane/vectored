@@ -34,10 +34,12 @@ defmodule Vectored.Elements.Desc do
   end
 
   defimpl Vectored.Renderable do
+    alias Vectored.Elements.Desc
+
     require Record
     Record.defrecord(:xmlText, Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl"))
 
-    def to_svg(%Vectored.Elements.Desc{content: content}) do
+    def to_svg(%Desc{content: content}) do
       text = xmlText(value: content)
       {:desc, [], [text]}
     end

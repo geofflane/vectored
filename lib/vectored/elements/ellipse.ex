@@ -80,9 +80,12 @@ defmodule Vectored.Elements.Ellipse do
   end
 
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.Ellipse{} = element) do
-      attrs = Vectored.Elements.Ellipse.attributes(element)
-      children = Vectored.Elements.Element.render_common_children(element)
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.Ellipse
+
+    def to_svg(%Ellipse{} = element) do
+      attrs = Ellipse.attributes(element)
+      children = Element.render_common_children(element)
       {:ellipse, attrs, children}
     end
   end

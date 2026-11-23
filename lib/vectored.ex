@@ -24,7 +24,7 @@ defmodule Vectored do
 
   Returns a `%Vectored.Elements.Svg{}` struct.
   """
-  def new() do
+  def new do
     Svg.new()
   end
 

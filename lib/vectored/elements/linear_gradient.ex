@@ -83,10 +83,13 @@ defmodule Vectored.Elements.LinearGradient do
   end
 
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.LinearGradient{children: children} = element) do
-      attrs = Vectored.Elements.LinearGradient.attributes(element)
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.LinearGradient
+
+    def to_svg(%LinearGradient{children: children} = element) do
+      attrs = LinearGradient.attributes(element)
       child_elems = Enum.map(children, &Vectored.Renderable.to_svg/1)
-      common_children = Vectored.Elements.Element.render_common_children(element)
+      common_children = Element.render_common_children(element)
       {:linearGradient, attrs, child_elems ++ common_children}
     end
   end

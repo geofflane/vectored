@@ -92,10 +92,13 @@ defmodule Vectored.Elements.Pattern do
   end
 
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.Pattern{children: children} = element) do
-      attrs = Vectored.Elements.Pattern.attributes(element)
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.Pattern
+
+    def to_svg(%Pattern{children: children} = element) do
+      attrs = Pattern.attributes(element)
       child_elems = Enum.map(children, &Vectored.Renderable.to_svg/1)
-      common_children = Vectored.Elements.Element.render_common_children(element)
+      common_children = Element.render_common_children(element)
       {:pattern, attrs, child_elems ++ common_children}
     end
   end

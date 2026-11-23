@@ -44,6 +44,10 @@ defmodule Vectored.Elements.Element do
 
   """
 
+  alias Vectored.Elements.Desc
+  alias Vectored.Elements.Element
+  alias Vectored.Elements.Title
+
   @default_overrides [
     path_length: :pathLength,
     stroke_width: :"stroke-width",
@@ -252,13 +256,13 @@ defmodule Vectored.Elements.Element do
 
       defelement(unquote(attributes))
 
-      def attrs() do
+      def attrs do
         (__ENV__.module.__struct__() |> Map.keys()) --
           [:__struct__, :content, :children, :desc, :title, :private, :dataset]
       end
 
       def attributes(element) do
-        Vectored.Elements.Element.attributes(element, attrs())
+        Element.attributes(element, attrs())
       end
 
       def rendered_key(key) do
@@ -274,11 +278,11 @@ defmodule Vectored.Elements.Element do
       end
 
       def with_description(elem, content) do
-        %{elem | desc: Vectored.Elements.Desc.new(content)}
+        %{elem | desc: Desc.new(content)}
       end
 
       def with_title(elem, content) do
-        %{elem | title: Vectored.Elements.Title.new(content)}
+        %{elem | title: Title.new(content)}
       end
 
       @doc """

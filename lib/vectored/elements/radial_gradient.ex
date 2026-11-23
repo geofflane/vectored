@@ -103,10 +103,13 @@ defmodule Vectored.Elements.RadialGradient do
   end
 
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.RadialGradient{children: children} = element) do
-      attrs = Vectored.Elements.RadialGradient.attributes(element)
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.RadialGradient
+
+    def to_svg(%RadialGradient{children: children} = element) do
+      attrs = RadialGradient.attributes(element)
       child_elems = Enum.map(children, &Vectored.Renderable.to_svg/1)
-      common_children = Vectored.Elements.Element.render_common_children(element)
+      common_children = Element.render_common_children(element)
       {:radialGradient, attrs, child_elems ++ common_children}
     end
   end

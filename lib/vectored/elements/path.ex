@@ -196,9 +196,12 @@ defmodule Vectored.Elements.Path do
   end
 
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.Path{} = element) do
-      attrs = Vectored.Elements.Path.attributes(element)
-      children = Vectored.Elements.Element.render_common_children(element)
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.Path
+
+    def to_svg(%Path{} = element) do
+      attrs = Path.attributes(element)
+      children = Element.render_common_children(element)
 
       {_, attrs} =
         Keyword.get_and_update(attrs, :d, fn

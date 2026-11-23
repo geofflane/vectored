@@ -1,6 +1,6 @@
 defmodule Vectored.Elements.ClipPathTest do
   use ExUnit.Case, async: true
-  alias Vectored.Elements.{ClipPath, Circle}
+  alias Vectored.Elements.{Circle, ClipPath}
 
   test "is renderable" do
     clip =

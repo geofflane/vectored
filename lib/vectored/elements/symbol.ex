@@ -57,10 +57,13 @@ defmodule Vectored.Elements.Symbol do
   end
 
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.Symbol{children: children} = element) do
-      attrs = Vectored.Elements.Symbol.attributes(element)
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.Symbol
+
+    def to_svg(%Symbol{children: children} = element) do
+      attrs = Symbol.attributes(element)
       child_elems = Enum.map(children, &Vectored.Renderable.to_svg/1)
-      common_children = Vectored.Elements.Element.render_common_children(element)
+      common_children = Element.render_common_children(element)
       {:symbol, attrs, child_elems ++ common_children}
     end
   end

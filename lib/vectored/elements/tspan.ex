@@ -59,13 +59,16 @@ defmodule Vectored.Elements.Tspan do
   end
 
   defimpl Vectored.Renderable do
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.Tspan
+
     require Record
     Record.defrecord(:xmlText, Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl"))
 
-    def to_svg(%Vectored.Elements.Tspan{content: content} = element) do
-      attrs = Vectored.Elements.Tspan.attributes(element)
+    def to_svg(%Tspan{content: content} = element) do
+      attrs = Tspan.attributes(element)
       text = xmlText(value: content)
-      children = Vectored.Elements.Element.render_common_children(element)
+      children = Element.render_common_children(element)
       {:tspan, attrs, [text | children]}
     end
   end

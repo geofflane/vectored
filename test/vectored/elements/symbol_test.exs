@@ -1,6 +1,6 @@
 defmodule Vectored.Elements.SymbolTest do
   use ExUnit.Case, async: true
-  alias Vectored.Elements.{Symbol, Circle}
+  alias Vectored.Elements.{Circle, Symbol}
 
   test "is renderable" do
     symbol =

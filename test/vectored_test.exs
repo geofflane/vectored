@@ -1,6 +1,6 @@
 defmodule VectoredTest do
   use ExUnit.Case, async: true
-  alias Vectored.Elements.{Circle, Group, Path, Text, Svg, Use}
+  alias Vectored.Elements.{Circle, Group, Path, Svg, Text, Use}
 
   test "can render svg" do
     group =

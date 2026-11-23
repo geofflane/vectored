@@ -70,9 +70,12 @@ defmodule Vectored.Elements.Use do
   end
 
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.Use{} = element) do
-      attrs = Vectored.Elements.Use.attributes(element)
-      common_children = Vectored.Elements.Element.render_common_children(element)
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.Use
+
+    def to_svg(%Use{} = element) do
+      attrs = Use.attributes(element)
+      common_children = Element.render_common_children(element)
       {:use, attrs, common_children}
     end
   end

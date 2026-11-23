@@ -46,9 +46,12 @@ defmodule Vectored.Elements.Polygon do
   end
 
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.Polygon{} = element) do
-      attrs = Vectored.Elements.Polygon.attributes(element)
-      children = Vectored.Elements.Element.render_common_children(element)
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.Polygon
+
+    def to_svg(%Polygon{} = element) do
+      attrs = Polygon.attributes(element)
+      children = Element.render_common_children(element)
 
       {_, attrs} =
         Keyword.get_and_update(attrs, :points, fn

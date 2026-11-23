@@ -1,6 +1,6 @@
 defmodule Vectored.Elements.PatternTest do
   use ExUnit.Case, async: true
-  alias Vectored.Elements.{Pattern, Circle}
+  alias Vectored.Elements.{Circle, Pattern}
 
   test "is renderable" do
     pattern =

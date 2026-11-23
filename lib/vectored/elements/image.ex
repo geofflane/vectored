@@ -80,9 +80,12 @@ defmodule Vectored.Elements.Image do
   end
 
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.Image{} = element) do
-      attrs = Vectored.Elements.Image.attributes(element)
-      children = Vectored.Elements.Element.render_common_children(element)
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.Image
+
+    def to_svg(%Image{} = element) do
+      attrs = Image.attributes(element)
+      children = Element.render_common_children(element)
       {:image, attrs, children}
     end
   end

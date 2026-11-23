@@ -1,6 +1,6 @@
 defmodule Vectored.Elements.MaskTest do
   use ExUnit.Case, async: true
-  alias Vectored.Elements.{Mask, Circle}
+  alias Vectored.Elements.{Circle, Mask}
 
   test "is renderable" do
     mask =

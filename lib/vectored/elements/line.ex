@@ -46,7 +46,7 @@ defmodule Vectored.Elements.Line do
   Create a new line element. Points default to (0,0).
   """
   @spec new() :: t()
-  def new() do
+  def new do
     %__MODULE__{}
   end
 
@@ -67,9 +67,12 @@ defmodule Vectored.Elements.Line do
   end
 
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.Line{} = element) do
-      attrs = Vectored.Elements.Line.attributes(element)
-      children = Vectored.Elements.Element.render_common_children(element)
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.Line
+
+    def to_svg(%Line{} = element) do
+      attrs = Line.attributes(element)
+      children = Element.render_common_children(element)
       {:line, attrs, children}
     end
   end

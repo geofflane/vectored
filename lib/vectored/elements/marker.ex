@@ -89,7 +89,7 @@ defmodule Vectored.Elements.Marker do
   Create a new marker definition.
   """
   @spec new() :: t()
-  def new() do
+  def new do
     %__MODULE__{}
   end
 
@@ -128,12 +128,15 @@ defmodule Vectored.Elements.Marker do
   end
 
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.Marker{children: children} = element) do
-      attrs = Vectored.Elements.Marker.attributes(element)
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.Marker
+
+    def to_svg(%Marker{children: children} = element) do
+      attrs = Marker.attributes(element)
 
       child_elems =
         Enum.map(children, &Vectored.Renderable.to_svg/1) ++
-          Vectored.Elements.Element.render_common_children(element)
+          Element.render_common_children(element)
 
       {:marker, attrs, child_elems}
     end

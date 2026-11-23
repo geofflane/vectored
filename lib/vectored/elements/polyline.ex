@@ -51,9 +51,12 @@ defmodule Vectored.Elements.Polyline do
   end
 
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.Polyline{} = element) do
-      attrs = Vectored.Elements.Polyline.attributes(element)
-      children = Vectored.Elements.Element.render_common_children(element)
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.Polyline
+
+    def to_svg(%Polyline{} = element) do
+      attrs = Polyline.attributes(element)
+      children = Element.render_common_children(element)
 
       {_, attrs} =
         Keyword.get_and_update(attrs, :points, fn

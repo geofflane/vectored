@@ -108,15 +108,18 @@ defmodule Vectored.Elements.Text do
   end
 
   defimpl Vectored.Renderable do
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.Text
+
     require Record
     Record.defrecord(:xmlText, Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl"))
 
-    def to_svg(%Vectored.Elements.Text{content: content, children: text_children} = element) do
-      attrs = Vectored.Elements.Text.attributes(element)
+    def to_svg(%Text{content: content, children: text_children} = element) do
+      attrs = Text.attributes(element)
 
       text_node = if content, do: [xmlText(value: content)], else: []
       rendered_children = Enum.map(text_children, &Vectored.Renderable.to_svg/1)
-      common_children = Vectored.Elements.Element.render_common_children(element)
+      common_children = Element.render_common_children(element)
 
       {:text, attrs, text_node ++ rendered_children ++ common_children}
     end

@@ -56,7 +56,7 @@ defmodule Vectored.Elements.Rectangle do
   Create an empty rectangle.
   """
   @spec new() :: t()
-  def new() do
+  def new do
     %__MODULE__{}
   end
 
@@ -91,9 +91,12 @@ defmodule Vectored.Elements.Rectangle do
   end
 
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.Rectangle{} = element) do
-      attrs = Vectored.Elements.Rectangle.attributes(element)
-      children = Vectored.Elements.Element.render_common_children(element)
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.Rectangle
+
+    def to_svg(%Rectangle{} = element) do
+      attrs = Rectangle.attributes(element)
+      children = Element.render_common_children(element)
       {:rect, attrs, children}
     end
   end

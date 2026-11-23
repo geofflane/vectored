@@ -67,7 +67,7 @@ defmodule Vectored.Elements.Svg do
   Create a new SVG document container.
   """
   @spec new() :: t()
-  def new() do
+  def new do
     %__MODULE__{}
   end
 
@@ -155,9 +155,12 @@ defmodule Vectored.Elements.Svg do
   end
 
   defimpl Vectored.Renderable do
-    def to_svg(%Vectored.Elements.Svg{children: children, defs: defs} = element) do
-      attrs = Vectored.Elements.Svg.attributes(element) |> Keyword.drop([:defs])
-      common_children = Vectored.Elements.Element.render_common_children(element)
+    alias Vectored.Elements.Element
+    alias Vectored.Elements.Svg
+
+    def to_svg(%Svg{children: children, defs: defs} = element) do
+      attrs = Svg.attributes(element) |> Keyword.drop([:defs])
+      common_children = Element.render_common_children(element)
 
       child_elems = Enum.map(children, &Vectored.Renderable.to_svg/1)
       def_elem = if defs, do: [Vectored.Renderable.to_svg(defs)], else: []
