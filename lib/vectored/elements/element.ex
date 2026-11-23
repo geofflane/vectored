@@ -32,13 +32,14 @@ defmodule Vectored.Elements.Element do
     * `put_dataset/3`, `delete_dataset/2`, `with_dataset/2` - For `data-*` attributes.
       Useful for passing metadata to JavaScript or CSS.
 
-      > #### Security: dataset keys become atoms {: .warning}
+      > #### Dataset keys must be atoms {: .warning}
       >
-      > Dataset *keys* are converted to atoms when rendered (the underlying
-      > `:xmerl` serializer requires atom attribute names). Atoms are never
-      > garbage-collected, so passing untrusted, user-derived strings as dataset
-      > *keys* can exhaust the atom table and crash the BEAM. Always use static,
-      > developer-controlled key names. Dataset *values* are unrestricted and safe.
+      > Dataset *keys* must be atoms (`:userId`), because the underlying `:xmerl`
+      > serializer requires atom attribute names. Each key renders as exactly
+      > one derived atom (`:userId` becomes `:"data-user-id"`), so the library
+      > never grows the atom table beyond the keys you create. Don't build keys
+      > from untrusted input with `String.to_atom/1`: atoms are never
+      > garbage-collected. Dataset *values* are unrestricted and safe.
     * `with_description/2`, `with_title/2` - For metadata children that help
       with accessibility (ARIA).
 
@@ -296,20 +297,13 @@ defmodule Vectored.Elements.Element do
 
       @doc """
       Set a dataset attribute. Mimics the DOM Element.dataset API.
-      The key will be converted from camelCase to kebab-case for the data-* attribute.
+      The key is converted from camelCase to kebab-case for the data-* attribute,
+      so `:userId` renders as `data-user-id`.
 
-      > #### Security {: .warning}
-      >
-      > The `key` is converted to an atom at render time (required by `:xmerl`).
-      > Never pass untrusted/user-derived strings as `key` — unbounded distinct
-      > keys exhaust the atom table and crash the BEAM. Use static key names.
-      > `value` is safe and may be dynamic.
+      `key` must be an atom (see the "Dataset keys must be atoms" note in
+      `Vectored.Elements.Element`). `value` is safe and may be dynamic.
       """
       def put_dataset(elem, key, value) when is_atom(key) do
-        put_dataset(elem, Atom.to_string(key), value)
-      end
-
-      def put_dataset(elem, key, value) when is_binary(key) do
         current_dataset = elem.dataset || %{}
         %{elem | dataset: Map.put(current_dataset, key, value)}
       end
@@ -318,18 +312,15 @@ defmodule Vectored.Elements.Element do
       Remove a dataset attribute
       """
       def delete_dataset(elem, key) when is_atom(key) do
-        delete_dataset(elem, Atom.to_string(key))
-      end
-
-      def delete_dataset(elem, key) when is_binary(key) do
         current_dataset = elem.dataset || %{}
         %{elem | dataset: Map.delete(current_dataset, key)}
       end
 
       @doc """
-      Set the entire dataset map at once
+      Set the entire dataset map at once. All keys must be atoms.
       """
       def with_dataset(elem, dataset) when is_map(dataset) do
+        Element.validate_dataset_keys!(dataset)
         %{elem | dataset: dataset}
       end
 
@@ -349,36 +340,43 @@ defmodule Vectored.Elements.Element do
       end
       |> Enum.sort_by(&elem(&1, 0))
 
-    # Add dataset attributes as data-* attributes
-    dataset_attrs =
-      case Map.get(element, :dataset) do
-        nil ->
-          []
+    regular_attrs ++ dataset_attributes(Map.get(element, :dataset))
+  end
 
-        dataset when is_map(dataset) and map_size(dataset) == 0 ->
-          []
+  # Renders the dataset as data-* attributes, sorted, after the regular attributes.
+  defp dataset_attributes(nil), do: []
 
-        dataset when is_map(dataset) ->
-          dataset
-          |> Enum.map(fn {key, value} ->
-            # Convert camelCase key to data-kebab-case attribute name
-            attr_name = camel_to_data_attr(key)
-            {String.to_atom(attr_name), maybe_cast(value)}
-          end)
-          |> Enum.sort_by(&elem(&1, 0))
-      end
+  defp dataset_attributes(dataset) when is_map(dataset) do
+    validate_dataset_keys!(dataset)
 
-    regular_attrs ++ dataset_attrs
+    dataset
+    |> Enum.map(fn {key, value} ->
+      # Safe: keys are validated to be atoms, so each derived data-* atom maps
+      # 1:1 to an atom the caller already created and the atom table stays bounded.
+      # (Iron Law #2 exception, user-approved: xmerl only accepts atom attr names.)
+      {String.to_atom(camel_to_data_attr(key)), maybe_cast(value)}
+    end)
+    |> Enum.sort_by(&elem(&1, 0))
+  end
+
+  @doc false
+  def validate_dataset_keys!(dataset) when is_map(dataset) do
+    case Enum.reject(Map.keys(dataset), &is_atom/1) do
+      [] ->
+        :ok
+
+      bad_keys ->
+        raise ArgumentError,
+              "dataset keys must be atoms (e.g. :userId), got: #{inspect(bad_keys)}. " <>
+                "String keys were removed in 0.6.0; see the CHANGELOG."
+    end
   end
 
   @doc false
   def camel_to_data_attr(key) when is_atom(key) do
-    camel_to_data_attr(Atom.to_string(key))
-  end
-
-  def camel_to_data_attr(key) when is_binary(key) do
     kebab_key =
       key
+      |> Atom.to_string()
       |> String.graphemes()
       |> Enum.with_index()
       |> Enum.map_join(fn
