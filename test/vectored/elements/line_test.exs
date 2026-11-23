@@ -14,6 +14,5 @@ defmodule Vectored.Elements.LineTest do
 
     assert [{:x1, 1}, {:x2, 10}, {:y1, 1}, {:y2, 10}] ==
              attrs
-             |> Enum.sort_by(&elem(&1, 0))
   end
 end

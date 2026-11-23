@@ -8,8 +8,7 @@ defmodule Vectored.Elements.CircleTest do
     assert {:circle, attrs, []} =
              Vectored.Renderable.to_svg(%Circle{cx: 1, cy: 1, r: 5})
 
-    sorted_attrs = Enum.sort_by(attrs, &elem(&1, 0))
-    assert sorted_attrs == [cx: 1, cy: 1, r: 5]
+    assert attrs == [cx: 1, cy: 1, r: 5]
   end
 
   test "with_radius/2 updates the radius" do

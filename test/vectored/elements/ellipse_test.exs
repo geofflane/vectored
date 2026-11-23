@@ -8,11 +8,8 @@ defmodule Vectored.Elements.EllipseTest do
     assert {:ellipse, attrs, []} =
              Vectored.Renderable.to_svg(Ellipse.new(10, 20, 5, 8))
 
-    sorted_attrs = Enum.sort_by(attrs, &elem(&1, 0))
-
-    # We expect cx, cy, rx, ry. New elements should follow the cx/cy pattern of circle for consistency.
-    # Wait, SVG ellipse uses cx, cy, rx, ry.
-    assert sorted_attrs == [cx: 10, cy: 20, rx: 5, ry: 8]
+    # Attributes render in sorted order.
+    assert attrs == [cx: 10, cy: 20, rx: 5, ry: 8]
   end
 
   test "with setters" do

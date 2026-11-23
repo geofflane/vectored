@@ -59,7 +59,6 @@ defmodule VectoredTest do
 
     assert [{:d, path_attrs}, {:fill, _}, {:stroke, _}] =
              attrs
-             |> Enum.sort_by(&elem(&1, 0))
 
     assert path_attrs == "M 10,10 L 90,90 V 10 H 50"
   end

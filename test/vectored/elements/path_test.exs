@@ -9,8 +9,7 @@ defmodule Vectored.Elements.PathTest do
              |> Path.line_to(10, 10)
              |> Vectored.Renderable.to_svg()
 
-    sorted_attrs = Enum.sort_by(attrs, &elem(&1, 0))
-    assert sorted_attrs == [d: "M 0,0 L 10,10"]
+    assert attrs == [d: "M 0,0 L 10,10"]
   end
 
   defp d(path) do

@@ -12,7 +12,6 @@ defmodule Vectored.Elements.UseTest do
 
     assert [{:height, 10}, {:href, "#foo"}, {:width, 10}, {:x, 1}, {:y, 1}] ==
              attrs
-             |> Enum.sort_by(&elem(&1, 0))
   end
 
   test "can contain a title" do
@@ -23,6 +22,5 @@ defmodule Vectored.Elements.UseTest do
 
     assert [{:title, [], _}] =
              children
-             |> Enum.sort_by(&elem(&1, 0))
   end
 end

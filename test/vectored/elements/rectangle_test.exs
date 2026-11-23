@@ -14,6 +14,5 @@ defmodule Vectored.Elements.RectangleTest do
 
     assert [{:height, 10}, {:width, 10}, {:x, 1}, {:y, 1}] ==
              attrs
-             |> Enum.sort_by(&elem(&1, 0))
   end
 end

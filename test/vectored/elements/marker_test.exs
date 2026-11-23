@@ -12,6 +12,5 @@ defmodule Vectored.Elements.MarkerTest do
 
     assert [{:markerHeight, 2}, {:markerWidth, 2}, {:orient, 0}, {:refX, 0}, {:refY, 0}] ==
              attrs
-             |> Enum.sort_by(&elem(&1, 0))
   end
 end

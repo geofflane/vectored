@@ -12,7 +12,6 @@ defmodule Vectored.Elements.TextTest do
 
     assert [{:x, 1}, {:y, 1}] ==
              attrs
-             |> Enum.sort_by(&elem(&1, 0))
   end
 
   test "is renderable w/o location" do
@@ -22,6 +21,5 @@ defmodule Vectored.Elements.TextTest do
 
     assert [{:x, 0}, {:y, 0}] ==
              attrs
-             |> Enum.sort_by(&elem(&1, 0))
   end
 end
