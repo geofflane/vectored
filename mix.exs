@@ -1,7 +1,7 @@
 defmodule Vectored.MixProject do
   use Mix.Project
 
-  @version "0.5.0"
+  @version "0.6.0"
   @source_url "https://github.com/geofflane/vectored"
 
   def project do
@@ -42,7 +42,7 @@ defmodule Vectored.MixProject do
     [
       main: "Vectored",
       extras: ["README.md", "LICENSE.md"],
-      source_ref: "v#{@version}",
+      source_ref: @version,
       source_url: @source_url
     ]
   end

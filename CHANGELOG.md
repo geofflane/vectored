@@ -7,12 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-11-23
+
+### Breaking
+
+- Dataset keys must now be atoms. `put_dataset/3` and `delete_dataset/2` no longer accept
+  string keys, and `with_dataset/2` (and rendering) raise `ArgumentError` if any key is a
+  string. The library previously turned caller-supplied string keys into atoms at render
+  time, which could exhaust the atom table if keys came from untrusted input. Migration:
+  `put_dataset(el, "userId", v)` becomes `put_dataset(el, :userId, v)`, and
+  `with_dataset(el, %{"userId" => v})` becomes `with_dataset(el, %{userId: v})`.
+
+### Changed
+
+- Attributes set to `false` now render as `attr="false"` instead of being silently dropped.
+  Only `nil` omits an attribute. This matches how dataset values already behaved.
+- `<title>` now always renders before `<desc>` (SVG 2 recommends `<title>` as the first
+  child). Previously the order depended on map iteration and was not guaranteed.
+
+### Fixed
+
+- `Image.with_size/3` spec now accepts `<length-percentage>` strings (e.g. `"100%"`),
+  matching `Image.new/5`, `Image.at_location/3` and the documented examples.
+- `Rectangle.with_size/3` now has a `@spec`, accepting numbers or `<length-percentage>`
+  strings.
+- HexDocs "view source" links now point at the real release tag (`0.6.0`). They previously
+  used a `v`-prefixed tag that does not exist.
+
 ## [0.5.0] - 2026-07-22
 
 ### Changed
 
-- Rendered attributes are now emitted in a stable alphabetical order, with `data-*`
-  attributes last. Generated SVG is semantically identical, but attribute order differs
+- Rendered attributes are now emitted in a stable order, sorted by attribute name
+  in byte order (case-sensitive, so an uppercase letter sorts before any lowercase
+  letter at the same position), with `data-*` attributes last. Generated SVG is semantically identical, but attribute order differs
   from previous releases, so committed or snapshot-tested output will show a diff.
 - `Rectangle.new/4`, `Image.new/5`, `Image.at_location/3`, `Circle.at_location/3`, and
   `Marker.size/3` now accept `<length-percentage>` strings such as `"50%"` or `"2em"` in
@@ -123,7 +151,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Defs and Use elements
 - xmlns handling
 
-[Unreleased]: https://github.com/geofflane/vectored/compare/0.4.0...HEAD
+[Unreleased]: https://github.com/geofflane/vectored/compare/0.6.0...HEAD
+[0.6.0]: https://github.com/geofflane/vectored/compare/0.5.0...0.6.0
+[0.5.0]: https://github.com/geofflane/vectored/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/geofflane/vectored/compare/0.3.4...0.4.0
 [0.3.4]: https://github.com/geofflane/vectored/compare/0.3.3...0.3.4
 [0.3.3]: https://github.com/geofflane/vectored/compare/0.3.2...0.3.3

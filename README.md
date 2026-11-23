@@ -29,7 +29,7 @@ Add it to your `mix.exs`:
 ```elixir
 def deps do
   [
-    {:vectored, "~> 0.4.0"}
+    {:vectored, "~> 0.6.0"}
   ]
 end
 ```
