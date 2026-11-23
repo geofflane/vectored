@@ -210,13 +210,13 @@ defmodule Vectored.Elements.Element do
 
   @spec render_common_children(any()) :: list()
   def render_common_children(element) do
-    element
-    |> Map.take([:title, :desc])
-    |> Enum.map(fn
-      {_k, nil} -> nil
-      {_k, elem} -> Vectored.Renderable.to_svg(elem)
-    end)
-    |> Enum.reject(&is_nil/1)
+    # Explicit order: SVG 2 recommends <title> as the first child for accessibility.
+    # (Map iteration order is not guaranteed, so don't derive this from Map.take/2.)
+    for key <- [:title, :desc],
+        child <- [Map.get(element, key)],
+        not is_nil(child) do
+      Vectored.Renderable.to_svg(child)
+    end
   end
 
   @doc """

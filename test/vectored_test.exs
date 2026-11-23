@@ -71,9 +71,8 @@ defmodule VectoredTest do
              |> Circle.with_title("testing circle")
              |> Vectored.to_svg()
 
-    assert [{:desc, [], _}, {:title, [], _}] =
+    assert [{:title, [], _}, {:desc, [], _}] =
              children
-             |> Enum.sort_by(&elem(&1, 0))
   end
 
   describe "private data" do

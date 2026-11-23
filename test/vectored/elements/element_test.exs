@@ -10,4 +10,12 @@ defmodule Vectored.Elements.ElementTest do
     {:circle, attrs, _} = Vectored.Renderable.to_svg(circle)
     assert {:href, "http://example.com"} in attrs
   end
+
+  test "title renders before desc" do
+    assert {:circle, _attrs, [{:title, [], _}, {:desc, [], _}]} =
+             Circle.new(5)
+             |> Circle.with_description("a description")
+             |> Circle.with_title("a title")
+             |> Vectored.Renderable.to_svg()
+  end
 end
